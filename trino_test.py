@@ -39,6 +39,8 @@ with DAG(
         sql="SHOW CATALOGS",
         handler=list
   )
+  #CALL system.sync_partition_metadata('ccma_matr', 'hbbtv_ip_aud_raw', 'ADD', true);
+
   '''t1 = PythonOperator(
         task_id='run_query',
         python_callable=query_trino,
