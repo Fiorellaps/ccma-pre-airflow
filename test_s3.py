@@ -24,10 +24,11 @@ default_args = {
 }
 
 with DAG(
-    'load_data_from_s3',
+    'get_data_from_s3',
     default_args=default_args,
     catchup=False,
     schedule_interval='@daily',
+    tags=['s3', 'test']
 ) as dag:
 
     t1 = PythonOperator(
