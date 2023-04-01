@@ -38,10 +38,10 @@ with DAG(
         task_id="trino_templated_query",
         sql="SHOW CATALOGS",
         handler=list
-    )
-    '''t1 = PythonOperator(
+  )
+  '''t1 = PythonOperator(
         task_id='run_query',
         python_callable=query_trino,
-    )'''
+  )'''
 
 trino_query
