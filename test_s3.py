@@ -26,7 +26,7 @@ def load_data_from_s3(**kwargs):
         verify= False
     )
 
-    my_bucket = s3.Bucket('ccma-pre')
+    my_bucket = s3_client.Bucket('ccma-pre')
 
     for file in my_bucket.objects.all():
         print(file.key)
