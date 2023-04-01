@@ -16,7 +16,7 @@ def load_data_from_s3(**kwargs):
     for key in keys:
         print(key)
      '''
-    s3_client = boto3.client(
+    s3_client = boto3.resource(
         "s3",
         "us-east-1",
         aws_access_key_id= "ZZ0JLR12PPW4410IW3G9",
