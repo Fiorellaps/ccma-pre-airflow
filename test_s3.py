@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
-
+from airflow.models import Variable
 import boto3
 
 def load_data_from_s3(**kwargs):
@@ -16,12 +16,16 @@ def load_data_from_s3(**kwargs):
     for key in keys:
         print(key)
      '''
+    acces_key = Variable.get("aws_access_key_id")
+    secret_key = Variable.get("aws_secret_key")
+    s3_endpoint = Variable.get("s3_endpoint_url")
+    
     s3_client = boto3.resource(
         "s3",
         "us-east-1",
-        aws_access_key_id= "ZZ0JLR12PPW4410IW3G9",
-        aws_secret_access_key= "yBUSPjz6OxKcIChDGQ0Cd1I7o9Av4bZYZJYT3CJJ",
-        endpoint_url= "http://rook-ceph-rgw-my-store-rook-ceph.apps.k8spro.nextret.net",
+        aws_access_key_id = acces_key,
+        aws_secret_access_key = secret_key,
+        endpoint_url= s3_endpoint,
         use_ssl= False,
         verify= False
     )
