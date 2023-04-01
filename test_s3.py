@@ -17,7 +17,7 @@ def load_data_from_s3(**kwargs):
         print(key)
      '''
     acces_key = Variable.get("aws_access_key_id")
-    secret_key = Variable.get("aws_secret_key")
+    secret_key = Variable.get("aws_secret_access_key")
     s3_endpoint = Variable.get("s3_endpoint_url")
     
     s3_client = boto3.resource(
