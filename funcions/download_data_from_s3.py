@@ -2,7 +2,7 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.utils.task_group import TaskGroup
 from airflow import DAG
 from funcions.utilities.s3_utiles import download_from_s3
-
+import sys
 
 def download_data_from_s3(dag: DAG, config) -> TaskGroup:
     
@@ -18,3 +18,4 @@ def download_data_from_s3(dag: DAG, config) -> TaskGroup:
         )
     
     return download_data_from_s3
+sys.modules[__name__] = download_data_from_s3
