@@ -14,7 +14,7 @@ current_path = "casos_uso/territori/"
 dag_arguments =  {
     #"end_date": datetime(),
     #"depends_on_past": False,
-    "email": ['fpa@nextret.net'],
+    #"email": ['fpa@nextret.net'],
     #"email_on_failure": True,
     #"email_on_retry": False,
     #"retries": 1,
