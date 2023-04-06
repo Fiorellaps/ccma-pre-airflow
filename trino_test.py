@@ -33,7 +33,7 @@ with DAG(
     schedule_interval='@daily',
     tags=['trino', 'test']
 ) as dag:
-  
+  trino
   trino_query = TrinoOperator(
         task_id="trino_templated_query",
         sql="SHOW CATALOGS",
