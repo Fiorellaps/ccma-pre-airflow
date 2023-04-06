@@ -49,7 +49,7 @@ def download_from_s3 (bucket_name: str, file_path: str, file_name: str) -> str:
     s3_client.download_file(bucket_name, file_path, out_dir)
     
 
-def read_data_from_s3 (file_path: str, bucket_name: str) -> str:
+def read_data_from_s3 (bucket_name: str, file_path: str, file_name: str) -> str:
     acces_key = Variable.get("aws_access_key_id")
     secret_key = Variable.get("aws_secret_access_key")
     s3_endpoint = Variable.get("s3_endpoint_url")
@@ -63,7 +63,7 @@ def read_data_from_s3 (file_path: str, bucket_name: str) -> str:
         use_ssl= False,
         verify= False
     )
-
-    obj = s3_client.Object(bucket_name, file_path)
+    complete_file_path = os.path.join(file_path, file_name)
+    obj = s3_client.Object(bucket_name, complete_file_path)
     file_content = obj.get()['Body'].read().decode('utf-8')
     return file_content
