@@ -4,6 +4,8 @@ from airflow.operators.python_operator import PythonOperator
 from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 from airflow.models import Variable
 import boto3
+import sys
+
 
 def load_data_from_s3(**kwargs):
     '''
@@ -16,6 +18,10 @@ def load_data_from_s3(**kwargs):
     for key in keys:
         print(key)
      '''
+    print("SYSTEM")
+    sys.path.insert(0,'./')
+    sys.path.insert(0,'/dags/dags')
+    print(sys.path)
     acces_key = Variable.get("aws_access_key_id")
     secret_key = Variable.get("aws_secret_access_key")
     s3_endpoint = Variable.get("s3_endpoint_url")
