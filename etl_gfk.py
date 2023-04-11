@@ -3,6 +3,10 @@ from airflow import DAG
 from funcions.download_data_from_s3 import download_data_from_s3
 from funcions.remove_local_folder import remove_local_folder
 from funcions.execute_trino_query import execute_trino_query
+import sys
+sys.path.insert(0,'./')
+sys.path.insert(0,'/dags/dags')
+print(sys.path)
 
 global_dag_config = {
     "job_name": "ETL-GFK",
