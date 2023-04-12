@@ -1,7 +1,9 @@
-from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
+from airflow.operators.bash_operator import BashOperator
 from airflow.models import Variable
+
+from datetime import datetime, timedelta
 import boto3
 import os
 import sys
@@ -38,7 +40,11 @@ def create_folder(path):
         os.makedirs(path, exist_ok=True)
         print("path created", path)
 
-def download_from_s3 (bucket_name: str, file_path: str, file_name: str) -> str:
+def download_from_s3 (bucket_name: str, 
+                      folder_path: str, 
+                      file_path: str, 
+                      local_folder_path: str,
+                      local_file_path: str) -> str:
     # Create S3 clien connection
     print("---path",sys.path)
     acces_key = Variable.get("aws_access_key_id")
@@ -55,17 +61,16 @@ def download_from_s3 (bucket_name: str, file_path: str, file_name: str) -> str:
     )
 
     # Create temporal path if not exists
-    print("file_path " + file_path)
-    local_path = os.path.join("/opt/bitnami/tmp",  file_path)
-    create_folder(local_path)
+    print("folder_path " + folder_path)
+
+    create_folder(local_folder_path)
 
     # Dowload data to temporal path
-    out_dir =  os.path.join(local_path,  file_name)
-    origin_path = os.path.join(file_path,  file_name)
-    print("Save files at " + out_dir)
+    
+    print("Save files at " + local_file_path)
     print("bucket", bucket_name)
-    print("origin_path", origin_path)
-    s3_client.download_file(bucket_name, origin_path, out_dir)
+    print("origin_path", file_path)
+    s3_client.download_file(bucket_name, file_path, local_file_path)
 
 with DAG(
    global_dag_config["job_name"],
@@ -76,18 +81,29 @@ with DAG(
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
     config_download_jar_from_s3 = {
-        "file_path": "gfk",
+        "folder_path": "gfk",
         "bucket_name": "airflowdags",
-        "file_name": "ccma-etl-0.2311.0-SNAPSHOT-jar-with-dependencies.jar"
+        "file_path": "gfk/ccma-etl-0.2311.0-SNAPSHOT-jar-with-dependencies.jar"
     }
+    local_folder_path = os.path.join("/opt/bitnami/tmp",  config_download_jar_from_s3["folder_path"])
+    local_file_path = os.path.join("/opt/bitnami/tmp",  config_download_jar_from_s3["file_path"])
+
     download_data_from_s3 = PythonOperator(
             task_id='download_data_from_s3',
             python_callable=download_from_s3,
             op_kwargs={
-                "file_path": config_download_jar_from_s3["file_path"],
+                "folder_path": config_download_jar_from_s3["folder_path"],
                 "bucket_name": config_download_jar_from_s3["bucket_name"],
-                "file_name": config_download_jar_from_s3["file_name"]
+                "file_path": config_download_jar_from_s3["file_path"],
+                "local_folder_path": local_folder_path,
+                "local_file_path": local_file_path
             },
             dag=dag,
     )
+    '''
+    execute_jar = BashOperator(
+    task_id='task_execute_jar',
+    bash_command='cd ' + local_folder_path + ' && java -jar ' + java_config['tmp_path'] + '/' + java_config["jar_name"] ,
+    dag=dag
+    )'''
     download_data_from_s3
