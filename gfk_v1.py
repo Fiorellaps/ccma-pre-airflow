@@ -56,7 +56,7 @@ def download_from_s3 (bucket_name: str, file_path: str, file_name: str) -> str:
 
     # Create temporal path if not exists
     print("file_path " + file_path)
-    local_path = os.path.join("/dags/dags/tmp",  file_path)
+    local_path = os.path.join("/opt/bitnami/tmp",  file_path)
     create_folder(local_path)
 
     # Dowload data to temporal path
