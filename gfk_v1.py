@@ -8,7 +8,7 @@ import sys
 
 sys.path.insert(0,'./')
 sys.path.insert(0,'/dags/dags')
-print("---path",sys.path)
+
 
 global_dag_config = {
     "job_name": "ETL-GFK",
@@ -40,6 +40,7 @@ def create_folder(path):
 
 def download_from_s3 (bucket_name: str, file_path: str, file_name: str) -> str:
     # Create S3 clien connection
+    print("---path",sys.path)
     acces_key = Variable.get("aws_access_key_id")
     secret_key = Variable.get("aws_secret_access_key")
     s3_endpoint = Variable.get("s3_endpoint_url")
@@ -55,7 +56,7 @@ def download_from_s3 (bucket_name: str, file_path: str, file_name: str) -> str:
 
     # Create temporal path if not exists
     print("file_path " + file_path)
-    local_path = os.path.join("/opt/bitnami/airflow/tmp",  file_path)
+    local_path = os.path.join("/tmp/bitnami",  file_path)
     create_folder(local_path)
 
     # Dowload data to temporal path
