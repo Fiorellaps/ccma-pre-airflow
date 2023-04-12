@@ -1,0 +1,42 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: name
+  namespace: ccma-pre
+spec:
+  type: Java
+  sparkUIOptions:
+    serviceType: NodePort
+  timeToLiveSeconds: 600
+  mode: cluster
+  sparkConf:
+    "spark.eventLog.enabled": "true"
+    "spark.eventLog.dir": "s3a://spark/logs/"
+    "spark.hadoop.fs.s3a.access.key": Z33UNFLB1DTDIRIT4MHT
+    "spark.hadoop.fs.s3a.secret.key": zSXEyVoXyDgDhCA9vrIusX6d16lOfwe97o8fTp8Y
+    "spark.hadoop.fs.s3a.endpoint": 10.210.4.193
+    "spark.hadoop.fs.s3a.path.style.access": "true"
+    "spark.hadoop.fs.s3a.connection.ssl.enabled": "false"
+    "spark.driver.extraJavaOptions": "-Divy.cache.dir=/tmp -Divy.home=/tmp -Dcom.amazonaws.services.s3.enableV4=true"
+    "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem"
+    "spark.executor.extraJavaOptions": "-Dcom.amazonaws.services.s3.enableV4=true"
+
+  image: "fps99/spark-s3:v10.1" # Custom image with aws jars, Spark 3.0.0 and Scala 2.12
+  imagePullPolicy: IfNotPresent
+  mainClass: com.pragsis.ccma.etl.control.ControlProcess
+  mainApplicationFile: "s3a://gfk/ccma-etl-0.2311.0-SNAPSHOT-jar-with-dependencies.jar"
+  sparkVersion: "3.1.1"
+  arguments:
+    - "gfk_vgfk_csv"
+  restartPolicy:
+    type: Never
+
+  driver:
+    cores: 3
+    memory: "3G"
+    serviceAccount: spark-operator
+
+  executor:
+    cores: 3
+    instances: 10
+    memory: "8G"

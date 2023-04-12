@@ -1,7 +1,9 @@
 from airflow import DAG
-from airflow.operators.python_operator import PythonOperator
-from airflow.operators.bash_operator import BashOperator
+#from airflow.operators.python_operator import PythonOperator
+#from airflow.operators.bash_operator import BashOperator
 from airflow.models import Variable
+from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
+from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 
 from datetime import datetime, timedelta
 import boto3
@@ -80,7 +82,7 @@ with DAG(
    schedule_interval='@weekly', #timedelta(days=1)
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
-    config_download_jar_from_s3 = {
+    '''config_download_jar_from_s3 = {
         "folder_path": "gfk",
         "bucket_name": "airflowdags",
         "file_path": "gfk/ccma-etl-0.2311.0-SNAPSHOT-jar-with-dependencies.jar"
@@ -99,11 +101,32 @@ with DAG(
                 "local_file_path": local_file_path
             },
             dag=dag,
-    )
+    )'''
     '''
     execute_jar = BashOperator(
     task_id='task_execute_jar',
     bash_command='cd ' + local_folder_path + ' && java -jar ' + java_config['tmp_path'] + '/' + java_config["jar_name"] ,
     dag=dag
     )'''
-    download_data_from_s3
+    spark_config = {
+        "namespace": "ccma-pre",
+        "application_yaml": "gfk_vgfk_csv.yaml",
+    }
+
+    kubernetesOperator = SparkKubernetesOperator(
+    task_id='spark_submit',
+    namespace=spark_config["namespace"],
+    application_file=spark_config["application_yaml"],
+    do_xcom_push=True,
+    dag=dag,
+    )
+
+    kubernetesSensor = SparkKubernetesSensor(
+    task_id='spark_monitor',
+    namespace=spark_config["namespace"],
+    application_name="{{ task_instance.xcom_pull(task_ids='spark_submit')['metadata']['name'] }}",
+    dag=dag,
+    attach_log=True,
+    
+    )
+    kubernetesOperator >> kubernetesSensor
