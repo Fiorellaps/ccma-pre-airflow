@@ -60,8 +60,11 @@ def download_from_s3 (bucket_name: str, file_path: str, file_name: str) -> str:
 
     # Dowload data to temporal path
     out_dir =  os.path.join(local_path,  file_name)
+    origin_path = os.path.join(file_path,  file_name)
     print("Save files at " + out_dir)
-    s3_client.download_file(bucket_name, file_path, out_dir)
+    print("bucket", bucket_name)
+    print("origin_path", origin_path)
+    s3_client.download_file(bucket_name, origin_path, out_dir)
 
 with DAG(
    global_dag_config["job_name"],
