@@ -1,1 +1,0 @@
-# ccma-pre-airflow
