@@ -167,16 +167,16 @@ with DAG(
     trino_query = read_data_from_s3(bucket_name=trino_config['query_bucket_name'], 
                             file_path=trino_config['query_file_path'])
     
-    execute_trino_query = TrinoOperator(
+    execute_trino_query_1 = TrinoOperator(
         task_id=task_id_1,
         sql="CALL system.sync_partition_metadata('ccma_analytics', 'enterprise_gfk_pgfk_csv', 'ADD', true)",
         handler=list
     )
     task_id_2 = "execute_trino_query_2" + query_file_name.lower().replace('_', '')
-    execute_trino_query = TrinoOperator(
+    execute_trino_query_2 = TrinoOperator(
         task_id=task_id_2,
         sql="CALL system.sync_partition_metadata('ccma_analytics', 'enterprise_gfk_vgfk_csv', 'ADD', true)",
         handler=list
     )
 
-    kubernetesOperator >> [kubernetesSensor, execute_trino_query]
+    kubernetesOperator >> [kubernetesSensor, execute_trino_query_1 ,execute_trino_query_2 ]
