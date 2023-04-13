@@ -162,14 +162,20 @@ with DAG(
         "query_bucket_name": "airflowdags"
     }
     query_file_name = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
-    task_id = "execute_trino_query_" + query_file_name.lower().replace('_', '')
+    task_id_1 = "execute_trino_query_1" + query_file_name.lower().replace('_', '')
     
     trino_query = read_data_from_s3(bucket_name=trino_config['query_bucket_name'], 
                             file_path=trino_config['query_file_path'])
     
     execute_trino_query = TrinoOperator(
-        task_id=task_id,
-        sql="gfk_repair_tables.sql",
+        task_id=task_id_1,
+        sql="CALL system.sync_partition_metadata('ccma_analytics', 'enterprise_gfk_pgfk_csv', 'ADD', true)",
+        handler=list
+    )
+    task_id_2 = "execute_trino_query_2" + query_file_name.lower().replace('_', '')
+    execute_trino_query = TrinoOperator(
+        task_id=task_id_2,
+        sql="CALL system.sync_partition_metadata('ccma_analytics', 'enterprise_gfk_pgfk_csv', 'ADD', true)",
         handler=list
     )
 
