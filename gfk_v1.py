@@ -169,7 +169,7 @@ with DAG(
     
     execute_trino_query = TrinoOperator(
         task_id=task_id,
-        sql=trino_query,
+        sql="gfk_repair_tables.sql",
         handler=list
     )
 
