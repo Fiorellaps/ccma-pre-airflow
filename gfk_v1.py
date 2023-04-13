@@ -4,11 +4,14 @@ from airflow import DAG
 from airflow.models import Variable
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
+from airflow.providers.trino.operators.trino import TrinoOperator
 
 from datetime import datetime, timedelta
 import boto3
 import os
 import sys
+
+
 
 sys.path.insert(0,'./')
 sys.path.insert(0,'/dags/dags')
@@ -35,6 +38,29 @@ dag_arguments =  {
     "start_date": datetime(2022, 12, 1),
     "provide_context": True
 }
+def read_data_from_s3 (bucket_name: str, file_path: str) -> str:
+    acces_key = Variable.get("aws_access_key_id")
+    secret_key = Variable.get("aws_secret_access_key")
+    s3_endpoint = Variable.get("s3_endpoint_url")
+
+    s3_client = boto3.resource(
+        "s3",
+        "us-east-1",
+        aws_access_key_id = acces_key,
+        aws_secret_access_key = secret_key,
+        endpoint_url= s3_endpoint,
+        use_ssl= False,
+        verify= False
+    )
+    print("read", file_path)
+    obj = s3_client.Object(bucket_name, file_path)
+    file_content = obj.get()['Body'].read().decode('utf-8')
+    print("content", file_content)
+    return file_content
+
+ 
+    
+    
 
 def create_folder(path):
     print("create path", path)
@@ -82,6 +108,7 @@ with DAG(
    schedule_interval='@weekly', #timedelta(days=1)
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
+    
     '''config_download_jar_from_s3 = {
         "folder_path": "gfk",
         "bucket_name": "airflowdags",
@@ -129,4 +156,21 @@ with DAG(
     attach_log=True,
     
     )
-    kubernetesOperator >> kubernetesSensor
+
+    trino_config = {
+        "query_file_path": "gfk/gfk_repair_tables.hql",
+        "query_bucket_name": "airflowdags"
+    }
+    query_file_name = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    task_id = "execute_trino_query_" + query_file_name.lower().replace('_', '')
+    
+    trino_query = read_data_from_s3(bucket_name=trino_config['query_bucket_name'], 
+                            file_path=trino_config['query_file_path'])
+    
+    execute_trino_query = TrinoOperator(
+        task_id=task_id,
+        sql=trino_query,
+        handler=list
+    )
+
+    kubernetesOperator >> [kubernetesSensor, execute_trino_query]
