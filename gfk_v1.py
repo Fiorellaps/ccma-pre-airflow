@@ -4,10 +4,10 @@ from airflow import DAG
 from airflow.models import Variable
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
+from function import create_folder
 
 from datetime import datetime, timedelta
 import boto3
-import os
 import sys
 
 sys.path.insert(0,'./')
@@ -36,11 +36,6 @@ dag_arguments =  {
     "provide_context": True
 }
 
-def create_folder(path):
-    print("create path", path)
-    if not os.path.exists(path):
-        os.makedirs(path, exist_ok=True)
-        print("path created", path)
 
 def download_from_s3 (bucket_name: str, 
                       folder_path: str, 

@@ -1,0 +1,16 @@
+# Role for spark-on-k8s-operator to create resources on cluster
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: default-edit
+  labels:
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
+rules:
+  - apiGroups:
+      - sparkoperator.k8s.io
+    resources:
+      - sparkApplications
+    verbs:
+      - "*"
+#kubectl create clusterrolebinding default-edit --clusterrole=default-edit --serviceaccount=ccma-pre:default --namespace=ccma-pre
+
