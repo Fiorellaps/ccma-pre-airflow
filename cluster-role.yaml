@@ -8,10 +8,10 @@ metadata:
 rules:
   - apiGroups:
       - sparkoperator.k8s.io
-      - name-driver"
+      - pods
     resources:
       - sparkApplications
-      - pods
+      - log
     verbs:
       - "*"
 #kubectl create clusterrolebinding default-edit --clusterrole=default-edit --serviceaccount=ccma-pre:default --namespace=ccma-pre
