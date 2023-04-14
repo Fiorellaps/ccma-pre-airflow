@@ -25,7 +25,7 @@ spec:
   image: "fps99/spark-s3:v10.1" # Custom image with aws jars, Spark 3.0.0 and Scala 2.12
   imagePullPolicy: IfNotPresent
   mainClass: com.pragsis.ccma.etl.control.ControlProcess
-  mainApplicationFile: "s3a://airflowdags/gfk/ccma-etl-0.2311.0-SNAPSHOT-jar-with-dependencies.jar"
+  mainApplicationFile: "s3a://airflowdags/gfk/ccma-etl-0.2314.0-SNAPSHOT-jar-with-dependencies.jar"
   sparkVersion: "2.7"
   arguments:
     - "gfk_vgfk_csv"
