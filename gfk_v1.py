@@ -5,7 +5,7 @@ from airflow.models import Variable
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.providers.trino.operators.trino import TrinoOperator
-
+from function import create_folder
 from datetime import datetime, timedelta
 import boto3
 import os
@@ -61,12 +61,13 @@ def read_data_from_s3 (bucket_name: str, file_path: str) -> str:
  
     
     
-
+'''
 def create_folder(path):
     print("create path", path)
     if not os.path.exists(path):
         os.makedirs(path, exist_ok=True)
         print("path created", path)
+'''
 
 def download_from_s3 (bucket_name: str, 
                       folder_path: str, 
