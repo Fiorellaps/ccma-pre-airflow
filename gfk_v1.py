@@ -5,7 +5,7 @@ from airflow.models import Variable
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.providers.trino.operators.trino import TrinoOperator
-from function import create_folder
+from prova.function import create_folder
 from datetime import datetime, timedelta
 import boto3
 import os
@@ -13,9 +13,11 @@ import sys
 
 
 
-sys.path.insert(0,'./')
-sys.path.insert(0,'/dags/dags')
-
+sys.path.append('./prova')
+sys.path.append('/dags/dags')
+sys.path.append('/dags/dags/git_dags')
+sys.path.append('/dags/dags/git_dags/prova')
+sys.path.append('/dags/dags/prova')
 
 global_dag_config = {
     "job_name": "ETL-GFK",
