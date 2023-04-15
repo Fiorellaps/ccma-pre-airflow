@@ -5,7 +5,7 @@ from airflow.models import Variable
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.providers.trino.operators.trino import TrinoOperator
-from prova.function import create_folder
+#from prova.function import create_folder
 from datetime import datetime, timedelta
 import boto3
 import os
