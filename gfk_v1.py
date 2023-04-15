@@ -14,10 +14,8 @@ import sys
 
 
 sys.path.append('./prova')
-sys.path.append('/dags/dags')
-sys.path.append('/dags/dags/git_dags')
-sys.path.append('/dags/dags/git_dags/prova')
-sys.path.append('/dags/dags/prova')
+sys.path.append('/opt/bitnami/airflow/dags/git_dags/')
+sys.path.append('/opt/bitnami/airflow/dags/git_dags/prova')
 
 global_dag_config = {
     "job_name": "ETL-GFK",
