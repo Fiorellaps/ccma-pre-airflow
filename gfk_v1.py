@@ -6,6 +6,7 @@ from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKu
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.providers.trino.operators.trino import TrinoOperator
 from airflow.operators.python_operator import PythonOperator
+import sys
 
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/prova')
@@ -14,7 +15,6 @@ from prova.function import create_folder
 from datetime import datetime, timedelta
 import boto3
 import os
-import sys
 
 
 
