@@ -10,8 +10,11 @@ import sys
 
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/prova')
+sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/funcions')
 
 from prova.function import create_folder
+from funcions.filesystem_utiles import remove_folder
+
 from datetime import datetime, timedelta
 import boto3
 import os
