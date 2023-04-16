@@ -5,7 +5,9 @@ from airflow.models import Variable
 from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
 from airflow.providers.trino.operators.trino import TrinoOperator
-from prova.function import create_folder
+from airflow.operators.python_operator import PythonOperator
+
+#from prova.function import create_folder
 from datetime import datetime, timedelta
 import boto3
 import os
@@ -14,8 +16,7 @@ import sys
 
 
 sys.path.append('./prova')
-sys.path.append('/opt/bitnami/airflow/dags/git_dags/')
-sys.path.append('/opt/bitnami/airflow/dags/git_dags/prova')
+
 
 global_dag_config = {
     "job_name": "ETL-GFK",
@@ -42,6 +43,10 @@ def read_data_from_s3 (bucket_name: str, file_path: str) -> str:
     acces_key = Variable.get("aws_access_key_id")
     secret_key = Variable.get("aws_secret_access_key")
     s3_endpoint = Variable.get("s3_endpoint_url")
+
+    sys.path.append('/opt/bitnami/airflow/dags/git_dags/')
+    sys.path.append('/opt/bitnami/airflow/dags/git_dags/prova/function')
+    print("path------", sys.path)
 
     s3_client = boto3.resource(
         "s3",
@@ -75,7 +80,9 @@ def download_from_s3 (bucket_name: str,
                       local_folder_path: str,
                       local_file_path: str) -> str:
     # Create S3 clien connection
-    print("---path",sys.path)
+    sys.path.append('/opt/bitnami/airflow/dags/git_dags/')
+    sys.path.append('/opt/bitnami/airflow/dags/git_dags/prova/function')
+    print("path------", sys.path)
     acces_key = Variable.get("aws_access_key_id")
     secret_key = Variable.get("aws_secret_access_key")
     s3_endpoint = Variable.get("s3_endpoint_url")
@@ -110,7 +117,7 @@ with DAG(
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
     
-    '''config_download_jar_from_s3 = {
+    config_download_jar_from_s3 = {
         "folder_path": "gfk",
         "bucket_name": "airflowdags",
         "file_path": "gfk/ccma-etl-0.2311.0-SNAPSHOT-jar-with-dependencies.jar"
@@ -129,7 +136,7 @@ with DAG(
                 "local_file_path": local_file_path
             },
             dag=dag,
-    )'''
+    )
     '''
     execute_jar = BashOperator(
     task_id='task_execute_jar',
@@ -180,4 +187,4 @@ with DAG(
         handler=list
     )
 
-    kubernetesOperator >> [kubernetesSensor, execute_trino_query_1 ,execute_trino_query_2 ]
+    download_data_from_s3 >> kubernetesOperator >> [kubernetesSensor, execute_trino_query_1 ,execute_trino_query_2 ]
