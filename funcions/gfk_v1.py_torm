@@ -11,7 +11,7 @@ sys.path.insert(0,'/dags/dags')
 print("---path",sys.path)
 
 global_dag_config = {
-    "job_name": "ETL-GFK",
+    "job_name": "ETL-GFK-2",
     "description":"Ingesta GFK",
     "owner":"ccma",
     "email_dest":["fpa@nextret.net"]
