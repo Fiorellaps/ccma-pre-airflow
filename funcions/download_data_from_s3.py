@@ -2,6 +2,8 @@ from airflow.operators.python_operator import PythonOperator
 from airflow import DAG
 from funcions.utilities.s3_utiles import download_from_s3
 import sys
+import sys
+sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/funcions')
 
 def download_data_from_s3(dag: DAG, config) :
     download_data_from_s3 = PythonOperator(

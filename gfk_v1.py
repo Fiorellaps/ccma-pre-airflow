@@ -12,15 +12,9 @@ sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/prova')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/funcions')
 
-from prova.function import create_folder
-from funcions.filesystem_utiles import remove_folder
+#from funcions.filesystem_utiles import remove_folder
 
 from datetime import datetime, timedelta
-import boto3
-import os
-
-
-
 
 
 global_dag_config = {
@@ -44,6 +38,7 @@ dag_arguments =  {
     "start_date": datetime(2022, 12, 1),
     "provide_context": True
 }
+'''
 def read_data_from_s3 (bucket_name: str, file_path: str) -> str:
     acces_key = Variable.get("aws_access_key_id")
     secret_key = Variable.get("aws_secret_access_key")
@@ -71,13 +66,13 @@ def read_data_from_s3 (bucket_name: str, file_path: str) -> str:
  
     
     
-'''
+
 def create_folder(path):
     print("create path", path)
     if not os.path.exists(path):
         os.makedirs(path, exist_ok=True)
         print("path created", path)
-'''
+
 
 def download_from_s3 (bucket_name: str, 
                       folder_path: str, 
@@ -112,6 +107,7 @@ def download_from_s3 (bucket_name: str,
     print("bucket", bucket_name)
     print("origin_path", file_path)
     s3_client.download_file(bucket_name, file_path, local_file_path)
+'''
 
 with DAG(
    global_dag_config["job_name"],
@@ -121,7 +117,7 @@ with DAG(
    schedule_interval='@weekly', #timedelta(days=1)
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
-    
+    '''
     config_download_jar_from_s3 = {
         "folder_path": "gfk",
         "bucket_name": "airflowdags",
@@ -142,7 +138,7 @@ with DAG(
             },
             dag=dag,
     )
-    '''
+ 
     execute_jar = BashOperator(
     task_id='task_execute_jar',
     bash_command='cd ' + local_folder_path + ' && java -jar ' + java_config['tmp_path'] + '/' + java_config["jar_name"] ,
@@ -177,8 +173,8 @@ with DAG(
     query_file_name = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
     task_id_1 = "execute_trino_query_1" + query_file_name.lower().replace('_', '')
     
-    trino_query = read_data_from_s3(bucket_name=trino_config['query_bucket_name'], 
-                            file_path=trino_config['query_file_path'])
+    '''trino_query = read_data_from_s3(bucket_name=trino_config['query_bucket_name'], 
+                            file_path=trino_config['query_file_path'])'''
     
     execute_trino_query_1 = TrinoOperator(
         task_id=task_id_1,
@@ -192,4 +188,4 @@ with DAG(
         handler=list
     )
 
-    download_data_from_s3 >> kubernetesOperator >> [kubernetesSensor, execute_trino_query_1 ,execute_trino_query_2 ]
+    kubernetesOperator >> [kubernetesSensor, execute_trino_query_1 ,execute_trino_query_2 ]

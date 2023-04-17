@@ -3,6 +3,9 @@ from airflow import DAG
 from funcions.utilities.filesystem_utiles import remove_folder
 import os
 from airflow.models import Variable
+import sys
+
+sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/funcions')
 
 def remove_local_folder(dag: DAG, file_path:str):
     local_temporal_path = Variable.get("local_temporal_path")
