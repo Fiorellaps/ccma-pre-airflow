@@ -188,4 +188,4 @@ with DAG(
         handler=list
     )
 
-    kubernetesOperator >> [kubernetesSensor, execute_trino_query_1 ,execute_trino_query_2 ]
+    kubernetesOperator >> kubernetesSensor >> [execute_trino_query_1 , execute_trino_query_2 ]
