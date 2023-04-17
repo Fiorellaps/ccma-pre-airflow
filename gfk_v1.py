@@ -9,7 +9,6 @@ from airflow.operators.python_operator import PythonOperator
 import sys
 
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
-sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/prova')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/funcions')
 
 #from funcions.filesystem_utiles import remove_folder
