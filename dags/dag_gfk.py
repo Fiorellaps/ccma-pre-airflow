@@ -12,7 +12,7 @@ import sys
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
 
-from functions.execute_spark_application import execute_spark_application
+from functions.task_group_execute_spark_application import execute_spark_application
 from datetime import datetime, timedelta
 
 

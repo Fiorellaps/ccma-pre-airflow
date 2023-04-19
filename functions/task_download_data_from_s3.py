@@ -21,4 +21,3 @@ def download_data_from_s3(dag: DAG, config) :
         )
     
     return download_data_from_s3
-sys.modules[__name__] = download_data_from_s3
