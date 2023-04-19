@@ -2,9 +2,9 @@ from airflow.operators.python_operator import PythonOperator
 from airflow import DAG
 import sys
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
-sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/funcions')
+sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
 
-from funcions.utilities.s3_utiles import download_from_s3
+from functions.utiles.s3_utiles import download_from_s3
 
 
 

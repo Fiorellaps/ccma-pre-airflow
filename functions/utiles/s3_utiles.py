@@ -1,7 +1,7 @@
 import boto3
 import os
 from airflow.models import Variable
-from funcions.utilities.filesystem_utiles import create_folder
+from functions.utiles.filesystem_utiles import create_folder
 
 def load_data_from_s3(**kwargs):
     acces_key = Variable.get("aws_access_key_id")

@@ -5,9 +5,9 @@ from airflow.models import Variable
 import os
 import sys
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
-sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/funcions')
+sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
 
-from funcions.utilities.filesystem_utiles import remove_folder
+from functions.utiles.filesystem_utiles import remove_folder
 
 
 

@@ -2,8 +2,8 @@ from airflow.providers.trino.operators.trino import TrinoOperator
 from airflow import DAG
 import sys
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
-sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/funcions')
-from funcions.utilities.s3_utiles import read_data_from_s3
+sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
+from functions.utiles.s3_utiles import read_data_from_s3
 
 
 def execute_trino_query(dag: DAG, config):
