@@ -1,18 +1,11 @@
 from airflow import DAG
-#from airflow.operators.python_operator import PythonOperator
-#from airflow.operators.bash_operator import BashOperator
-#from airflow.models import Variable
-#from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
-#from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
-#from airflow.providers.trino.operators.trino import TrinoOperator
-#from airflow.operators.python_operator import PythonOperator
 
 import sys
-
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
 
 from functions.task_group_execute_spark_application import execute_spark_application
+from functions.task_group_execute_trino_file import execute_trino_file
 from datetime import datetime, timedelta
 
 
@@ -63,5 +56,30 @@ with DAG(
                                         config=spark_config_gfk_pgfk_csv, 
                                         current_path=current_path
                                         )
+    spark_config_gfk_vgfk_csv = {
+        "use_case": "gfk_vgfk_csv",
+        "namespace": "ccma-pre",
+        "code_type": "Java", # Java, R or Python
+        "application_s3_location": "s3a://airflowdags/gfk/ccma-etl-0.2314.0-SNAPSHOT-jar-with-dependencies.jar",
+        "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess",
+        "application_arguments": ["gfk_pgfk_csv"]
+    }
+    spark_application_gfk_vgfk_csv = execute_spark_application(
+                                        dag=dag, 
+                                        config=spark_config_gfk_vgfk_csv, 
+                                        current_path=current_path
+                                        )
+    
+    trino_config_repair_tables = trino_config = {
+        "query_file_path": "gfk/gfk_repair_tables.hql",
+        "query_bucket_name": "airflowdags"
+    }
+    trino_config_repair_tables["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    
+    trino_execute_repair_tables = execute_trino_file(
+                                        dag=dag, 
+                                        config=trino_config_repair_tables, 
+                                        )
+    
       
-    spark_application_gfk_pgfk_csv
+    [spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv] >> trino_execute_repair_tables

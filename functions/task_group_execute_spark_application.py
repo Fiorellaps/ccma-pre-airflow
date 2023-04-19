@@ -54,7 +54,8 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
         # Define parameters for the spark application
         spark_config = {
             "template_path": yaml_template_path,
-            "yaml_dest_path": os.path.join(base_path, current_path, job_config['task_name'] + ".yaml"),
+            "yaml_dest_path_global": os.path.join(base_path, current_path, job_config['task_name'] + ".yaml"),
+            "yaml_dest_path_relative": os.path.join(current_path, job_config['task_name'] + ".yaml"),
             "application_name": job_config["task_name"].replace("_", "").replace(" ", "").lower(),
             "code_type": config["code_type"],
             "image": "fps99/sparkr-s3:v6.8",
@@ -95,7 +96,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
             python_callable=create_yaml,
             op_kwargs={
                 "template_path": spark_config["template_path"],
-                "dets_path": spark_config["yaml_dest_path"],
+                "dets_path": spark_config["yaml_dest_path_global"],
                 "application_name": spark_config["application_name"],
                 "code_type": spark_config["code_type"],
                 "image": spark_config["image"],
@@ -110,11 +111,12 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
         kubernetesOperator = SparkKubernetesOperator(
             task_id='spark_submit',
             namespace=spark_config["namespace"],
-            application_file=spark_config["yaml_dest_path"],
+            application_file=spark_config["yaml_dest_path_relative"],
             do_xcom_push=True,
             dag=dag,
         )
 
+        print("-----------application_name", spark_config["application_name"])
         kubernetesSensor = SparkKubernetesSensor(
             task_id='spark_monitor',
             namespace=spark_config["namespace"],
