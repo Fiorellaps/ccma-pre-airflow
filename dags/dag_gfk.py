@@ -62,7 +62,7 @@ with DAG(
         "code_type": "Java", # Java, R or Python
         "application_s3_location": "s3a://airflowdags/gfk/ccma-etl-0.2314.0-SNAPSHOT-jar-with-dependencies.jar",
         "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess",
-        "application_arguments": ["gfk_pgfk_csv"]
+        "application_arguments": ["gfk_vgfk_csv"]
     }
     spark_application_gfk_vgfk_csv = execute_spark_application(
                                         dag=dag, 
