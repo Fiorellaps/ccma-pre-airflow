@@ -38,8 +38,14 @@ def execute_trino_file(dag: DAG, config):
                             bucket_name=config['query_bucket_name'], 
                             file_path=config['query_file_path']
                             )
-        
-        query_list = query.split(";")
+        task_id = "execute_trino_query_" + str(random.randint(0,100))
+        task = TrinoOperator(
+                            task_id=task_id,
+                            sql=query,
+                            handler=list,
+                            dag=dag
+                        )
+        '''query_list = query.split(";")
         if len(query_list) > 0:
             for i in range(0, len(query_list)):
                 query = query_list[i]
@@ -53,6 +59,8 @@ def execute_trino_file(dag: DAG, config):
                                             dag=dag
                                         )
                     taskgroup.add(task)
+        '''
+        task_id
        
 
     return taskgroup
