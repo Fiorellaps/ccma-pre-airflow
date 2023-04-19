@@ -37,7 +37,20 @@ def execute_trino_file(dag: DAG, config):
                             file_path=config['query_file_path']
                             )
         
-        process_trino_query(dag, taskgroup, query)
+        query_list = query.split(";")
+        if len(query_list) > 0:
+            for i in range(0, len(query_list)):
+                query = query_list[i]
+                if query:
+                    print("--query", query)
+                    task_id = "execute_trino_query_" + str(i)
+                    task = TrinoOperator(
+                                            task_id=task_id,
+                                            sql=query,
+                                            handler=list,
+                                            dag=dag
+                                        )
+                    taskgroup.add(task)
        
 
     return taskgroup
