@@ -18,7 +18,8 @@ def execute_trino_query(dag: DAG, table_name, query):
     execute_trino_query = TrinoOperator(
         task_id=task_id,
         sql=query,
-        handler=list
+        handler=list,
+        dag=dag
     )
 
     return execute_trino_query

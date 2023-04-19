@@ -4,7 +4,7 @@ from airflow import DAG
 #from airflow.models import Variable
 #from airflow.providers.cncf.kubernetes.operators.spark_kubernetes import SparkKubernetesOperator
 #from airflow.providers.cncf.kubernetes.sensors.spark_kubernetes import SparkKubernetesSensor
-from airflow.providers.trino.operators.trino import TrinoOperator
+#from airflow.providers.trino.operators.trino import TrinoOperator
 #from airflow.operators.python_operator import PythonOperator
 
 import sys
