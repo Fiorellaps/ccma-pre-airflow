@@ -7,6 +7,8 @@ sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
 #from functions.task_execute_trino_query import execute_trino_query
 from functions.utiles.s3_utiles import read_data_from_s3
+import random
+
 
 
 def execute_trino_file(dag: DAG, config):
@@ -43,7 +45,7 @@ def execute_trino_file(dag: DAG, config):
                 query = query_list[i]
                 if query:
                     print("--query", query)
-                    task_id = "execute_trino_query_" + str(i)
+                    task_id = "execute_trino_query_" + str(random.randint(0,100))
                     task = TrinoOperator(
                                             task_id=task_id,
                                             sql=query,
