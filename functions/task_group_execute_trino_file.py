@@ -38,7 +38,7 @@ def execute_trino_file(dag: DAG, config):
                             bucket_name=config['query_bucket_name'], 
                             file_path=config['query_file_path']
                             )
-        task_id = "execute_trino_query_1"
+        task_id = "execute_trino_query"
         task = TrinoOperator(
                             task_id=task_id,
                             sql=query,
