@@ -70,16 +70,27 @@ with DAG(
                                         current_path=current_path
                                         )
     
-    trino_config_repair_tables = trino_config = {
-        "query_file_path": "gfk/gfk_repair_tables.hql",
+    trino_config_pgfk_repair_tables = trino_config = {
+        "query_file_path": "gfk/gfk_pgfk_repair_tables.hql",
         "query_bucket_name": "airflowdags"
     }
-    trino_config_repair_tables["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    trino_config_pgfk_repair_tables["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
     
-    trino_execute_repair_tables = execute_trino_file(
+    trino_execute_pgfk_repair_tables = execute_trino_file(
                                         dag=dag, 
-                                        config=trino_config_repair_tables, 
+                                        config=trino_config_pgfk_repair_tables, 
+                                        )
+    
+    trino_config_vgfk_repair_tables = trino_config = {
+        "query_file_path": "gfk/gfk_vgfk_repair_tables.hql",
+        "query_bucket_name": "airflowdags"
+    }
+    trino_config_vgfk_repair_tables["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    
+    trino_execute_vgfk_repair_tables = execute_trino_file(
+                                        dag=dag, 
+                                        config=trino_config_vgfk_repair_tables, 
                                         )
     
       
-    [spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv] >> trino_execute_repair_tables
+    [spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv] >> [trino_execute_pgfk_repair_tables, trino_execute_vgfk_repair_tables ]

@@ -10,10 +10,7 @@ from functions.utiles.s3_utiles import read_data_from_s3
 import random
 
 
-
-def execute_trino_file(dag: DAG, config):
-
-    def process_trino_query(dag, taskgroup, query):
+def process_trino_query(dag, taskgroup, query):
         query_list = query.split(";")
         if len(query_list) > 0:
             for i in range(0, len(query_list)):
@@ -28,6 +25,10 @@ def execute_trino_file(dag: DAG, config):
                                             dag=dag
                                         )
                     taskgroup.add(task)
+                    
+def execute_trino_file(dag: DAG, config):
+
+    
 
     task_group_id =  "execute_" + config['query_name']
     with TaskGroup(
