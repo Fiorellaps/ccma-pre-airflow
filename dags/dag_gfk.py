@@ -89,7 +89,7 @@ with DAG(
     
 
     # Repair table gfk_vgfk
-    trino_config_vgfk_repair_tables = trino_config = {
+    trino_config_vgfk_repair_tables = {
         "query_file_path": "gfk/gfk_vgfk_repair_tables.hql",
         "query_bucket_name": "airflowdags"
     }
@@ -101,7 +101,7 @@ with DAG(
                                         )
     
     #  Insert incremental gfk
-    trino_config_gfk_insert_incremental = trino_config = {
+    trino_config_gfk_insert_incremental = {
         "query_file_path": "gfk/insert_incremental_gfk.hql",
         "query_bucket_name": "airflowdags"
     }
