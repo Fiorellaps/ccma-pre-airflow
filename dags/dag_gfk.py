@@ -103,10 +103,10 @@ with DAG(
     
     #  Insert incremental gfk
     trino_config_gfk_insert_incremental = trino_config = {
-        "query_file_path": "gfk/ insert_incremental_gfk.hql",
+        "query_file_path": "gfk/insert_incremental_gfk.hql",
         "query_bucket_name": "airflowdags"
     }
-    trino_config_gfk_insert_incremental["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    trino_config_gfk_insert_incremental["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
     trino_execute_gfk_insert_incremental = execute_trino_file(
                                         dag=dag, 
