@@ -43,6 +43,7 @@ with DAG(
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
     
+    # Execute jar for gfk_vgfk_csv
     spark_config_gfk_pgfk_csv = {
         "use_case": "gfk_pgfk_csv",
         "namespace": "ccma-pre",
@@ -57,6 +58,9 @@ with DAG(
                                         config=spark_config_gfk_pgfk_csv, 
                                         current_path=current_path
                                         )
+    
+
+    # Execute jar for gfk_vgfk_csv
     spark_config_gfk_vgfk_csv = {
         "use_case": "gfk_vgfk_csv",
         "namespace": "ccma-pre",
@@ -71,6 +75,8 @@ with DAG(
                                         current_path=current_path
                                         )
     
+
+    # Repair table gfk_pgfk
     trino_config_pgfk_repair_tables = trino_config = {
         "query_file_path": "gfk/gfk_pgfk_repair_tables.hql",
         "query_bucket_name": "airflowdags"
@@ -82,6 +88,8 @@ with DAG(
                                         config=trino_config_pgfk_repair_tables, 
                                         )
     
+
+    # Repair table gfk_vgfk
     trino_config_vgfk_repair_tables = trino_config = {
         "query_file_path": "gfk/gfk_vgfk_repair_tables.hql",
         "query_bucket_name": "airflowdags"
@@ -92,6 +100,20 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_vgfk_repair_tables, 
                                         )
+    
+    #  Insert incremental gfk
+    trino_config_gfk_insert_incremental = trino_config = {
+        "query_file_path": "gfk/ insert_incremental_gfk.hql",
+        "query_bucket_name": "airflowdags"
+    }
+    trino_config_gfk_insert_incremental["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    
+    trino_execute_gfk_insert_incremental = execute_trino_file(
+                                        dag=dag, 
+                                        config=trino_config_gfk_insert_incremental, 
+                                        )
+    
+    # Send success email 
     success_email = EmailOperator(
         task_id='send_email',
         to=global_dag_config['email_dest'],
@@ -101,4 +123,4 @@ with DAG(
 )
     
     
-    [ spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv ] >> trino_execute_vgfk_repair_tables  >> trino_execute_pgfk_repair_tables >> success_email
+    [ spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv ] >> trino_execute_vgfk_repair_tables  >> trino_execute_pgfk_repair_tables >> trino_execute_gfk_insert_incremental >> success_email
