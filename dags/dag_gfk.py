@@ -1,4 +1,5 @@
 from airflow import DAG
+from airflow.operators.email_operator import EmailOperator
 
 import sys
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
@@ -22,8 +23,8 @@ current_path = "dags"
 dag_arguments =  {
     #"end_date": datetime(),
     #"depends_on_past": False,
-    #"email": ['fpa@nextret.net'],
-    #"email_on_failure": True,
+    "email": global_dag_config['email_dest'],
+    "email_on_failure": True,
     #"email_on_retry": False,
     #"retries": 1,
     #"retry_delay": timedelta(minutes=5),
@@ -91,6 +92,13 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_vgfk_repair_tables, 
                                         )
+    success_email = EmailOperator(
+        task_id='send_email',
+        to=global_dag_config['email_dest'],
+        subject='Airflow Success',
+        html_content=""" <h3>Mensaje desde Airflow</h3> <p>El dag """ + global_dag_config["job_name"] +  """se ha ejecutado correctamente</p> """,
+        dag=dag
+)
     
       
-    [ spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv ] >> [ trino_execute_vgfk_repair_tables , trino_execute_pgfk_repair_tables ]
+    [ spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv ] >> [ trino_execute_vgfk_repair_tables , trino_execute_pgfk_repair_tables ] >> success_email
