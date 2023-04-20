@@ -136,7 +136,6 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
         )
 
         (
-          
             create_yaml_spark
             >> kubernetesOperator
             >> [kubernetesSensor, remove_yaml]

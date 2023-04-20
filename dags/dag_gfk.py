@@ -93,4 +93,4 @@ with DAG(
                                         )
     
       
-    [spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv] >> [trino_execute_pgfk_repair_tables, trino_execute_vgfk_repair_tables ]
+    [ spark_application_gfk_pgfk_csv, spark_application_gfk_vgfk_csv ] >> trino_execute_vgfk_repair_tables >> trino_execute_pgfk_repair_tables
