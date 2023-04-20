@@ -126,20 +126,20 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
             attach_log=True,
         )
 
-        '''
+        
         remove_yaml = PythonOperator(
             task_id='remove_yaml',
             python_callable=remove_file,
             trigger_rule="all_done",
             op_kwargs={'path': spark_config["yaml_dest_path"]},
             dag=dag,
-        )'''
+        )
 
         (
           
             create_yaml_spark
             >> kubernetesOperator
-            >> [kubernetesSensor]
+            >> [kubernetesSensor, remove_yaml]
         )
 
     return taskgroup
