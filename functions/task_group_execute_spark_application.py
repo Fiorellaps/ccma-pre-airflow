@@ -131,7 +131,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
             task_id='remove_yaml',
             python_callable=remove_file,
             trigger_rule="all_done",
-            op_kwargs={'path': spark_config["yaml_dest_path"]},
+            op_kwargs={'path': spark_config["yaml_dest_path_global"]},
             dag=dag,
         )
 
