@@ -58,7 +58,6 @@ with DAG(
                                         config=spark_config_gfk_pgfk_csv, 
                                         current_path=current_path
                                         )
-    
 
     # Execute jar for gfk_vgfk_csv
     spark_config_gfk_vgfk_csv = {
