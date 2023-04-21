@@ -118,7 +118,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
             dag=dag,
         )
 
-        print("-----------application_name", spark_config["application_name"])
+
         kubernetesSensor = SparkKubernetesSensor(
             task_id='spark_monitor',
             namespace=spark_config["namespace"],

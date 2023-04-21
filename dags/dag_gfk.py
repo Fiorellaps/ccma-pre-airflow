@@ -76,11 +76,11 @@ with DAG(
     
 
     # Repair table gfk_pgfk
-    trino_config_pgfk_repair_tables = trino_config = {
+    trino_config_pgfk_repair_tables = {
         "query_file_path": "gfk/gfk_pgfk_repair_tables.hql",
         "query_bucket_name": "airflowdags"
     }
-    trino_config_pgfk_repair_tables["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    trino_config_pgfk_repair_tables["query_name"] = trino_config_pgfk_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
     
     trino_execute_pgfk_repair_tables = execute_trino_file(
                                         dag=dag, 
@@ -93,7 +93,7 @@ with DAG(
         "query_file_path": "gfk/gfk_vgfk_repair_tables.hql",
         "query_bucket_name": "airflowdags"
     }
-    trino_config_vgfk_repair_tables["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    trino_config_vgfk_repair_tables["query_name"] = trino_config_vgfk_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
     
     trino_execute_vgfk_repair_tables = execute_trino_file(
                                         dag=dag, 
@@ -105,7 +105,7 @@ with DAG(
         "query_file_path": "gfk/insert_incremental_gfk.hql",
         "query_bucket_name": "airflowdags"
     }
-    trino_config_gfk_insert_incremental["query_name"] = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
+    trino_config_gfk_insert_incremental["query_name"] = trino_config_gfk_insert_incremental['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
     trino_execute_gfk_insert_incremental = execute_trino_file(
                                         dag=dag, 

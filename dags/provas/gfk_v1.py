@@ -84,6 +84,7 @@ with DAG(
         handler=list
     )
     task_id_2 = "execute_trino_query_2" + query_file_name.lower().replace('_', '')
+    
     execute_trino_query_2 = TrinoOperator(
         task_id=task_id_2,
         sql="CALL system.sync_partition_metadata('ccma_analytics', 'enterprise_gfk_vgfk_csv', 'ADD', true)",
