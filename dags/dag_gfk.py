@@ -1,4 +1,4 @@
-#v1.1
+#v1.2
 from airflow import DAG
 from airflow.operators.email_operator import EmailOperator
 
