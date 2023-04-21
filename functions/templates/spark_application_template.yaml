@@ -4,6 +4,7 @@ metadata:
   name: gfk-vgfk-csv-app
   namespace: ccma-pre
 spec:
+  sparkConfigMap: hive-site-cm
   type: Java
   sparkUIOptions:
     serviceType: NodePort
