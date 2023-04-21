@@ -9,7 +9,7 @@ sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
 from functions.utiles.s3_utiles import read_data_from_s3
 import random
 
-
+'''
 def process_trino_query(dag, taskgroup, query):
         query_list = query.split(";")
         if len(query_list) > 0:
@@ -25,6 +25,7 @@ def process_trino_query(dag, taskgroup, query):
                                             dag=dag
                                         )
                     taskgroup.add(task)
+'''
 
 def execute_trino_file(dag: DAG, config):
 
