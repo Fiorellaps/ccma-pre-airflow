@@ -13,9 +13,9 @@ spec:
   sparkConf:
     "spark.eventLog.enabled": "true"
     "spark.eventLog.dir": "s3a://spark/logs/"
-    "spark.hadoop.fs.s3a.access.key": ZZ0JLR12PPW4410IW3G9
-    "spark.hadoop.fs.s3a.secret.key": yBUSPjz6OxKcIChDGQ0Cd1I7o9Av4bZYZJYT3CJJ
-    "spark.hadoop.fs.s3a.endpoint": 10.210.4.193:8080
+    "spark.hadoop.fs.s3a.access.key": accesKey
+    "spark.hadoop.fs.s3a.secret.key": secretKey
+    "spark.hadoop.fs.s3a.endpoint": endpoint
     "spark.hadoop.fs.s3a.port": "8080"
     "spark.hadoop.fs.s3a.path.style.access": "true"
     "spark.hadoop.fs.s3a.connection.ssl.enabled": "false"

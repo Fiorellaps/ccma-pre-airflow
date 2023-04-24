@@ -1,3 +1,5 @@
+from airflow.models import Variable
+
 import yaml
 
 
@@ -28,7 +30,16 @@ def create_yaml (template_path: str,
     with open(template_path) as file:
         if type(arguments) != list:
             arguments = [arguments]
+        
+        acces_key = Variable.get("aws_access_key_id")
+        secret_key = Variable.get("aws_secret_access_key")
+        s3_endpoint = Variable.get("s3_endpoint_url")
+        s3_endpoint = s3_endpoint.split("://")[1]
         list_doc = yaml.safe_load(file)
+
+        list_doc["spec"]["sparkConf"]["spark.hadoop.fs.s3a.access.key"] = acces_key
+        list_doc["spec"]["sparkConf"]["spark.hadoop.fs.s3a.secret.key"] = secret_key
+        list_doc["spec"]["sparkConf"]["spark.hadoop.fs.s3a.endpoint"] = s3_endpoint
         list_doc["spec"]["arguments"] = arguments
         list_doc["spec"]["image"] = image
         list_doc["spec"]["type"] = code_type
