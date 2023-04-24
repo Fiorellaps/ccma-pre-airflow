@@ -17,7 +17,7 @@ global_dag_config = {
     "job_name": "ETL-GFK",
     "description":"Ingesta GFK",
     "owner":"ccma",
-    "email_dest":["fpa@nextret.net"]
+    "email_dest":["fpa@nextret.net", "cduran.b@ccma.cat"]
 }
 current_path = "dags"
 
