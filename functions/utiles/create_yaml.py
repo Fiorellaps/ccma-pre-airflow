@@ -39,7 +39,7 @@ def create_yaml (template_path: str,
 
         list_doc["spec"]["sparkConf"]["spark.hadoop.fs.s3a.access.key"] = acces_key
         list_doc["spec"]["sparkConf"]["spark.hadoop.fs.s3a.secret.key"] = secret_key
-        list_doc["spec"]["sparkConf"]["spark.hadoop.fs.s3a.endpoint"] = s3_endpoint
+        #list_doc["spec"]["sparkConf"]["spark.hadoop.fs.s3a.endpoint"] = s3_endpoint
         list_doc["spec"]["arguments"] = arguments
         list_doc["spec"]["image"] = image
         list_doc["spec"]["type"] = code_type
