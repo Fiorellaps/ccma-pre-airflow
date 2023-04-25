@@ -5,6 +5,7 @@ metadata:
   namespace: ccma-pre
 spec:
   sparkConfigMap: hive-site-cm
+  #hadoopConfigMap: core-site-cm
   type: Java
   sparkUIOptions:
     serviceType: NodePort
@@ -39,8 +40,18 @@ spec:
     cores: 3
     memory: "3G"
     serviceAccount: spark-operator
+    configMaps:
+      - name: hive-site-cm
+        path: /opt/spark/conf
+      - name: core-site-cm
+        path: /opt/spark/conf
 
   executor:
     cores: 3
     instances: 10
     memory: "8G"
+    configMaps:
+      - name: hive-site-cm
+        path: /opt/spark/conf
+      - name: core-site-cm
+        path: /opt/spark/conf
