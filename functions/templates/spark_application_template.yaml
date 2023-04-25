@@ -24,7 +24,7 @@ spec:
     "spark.executor.extraJavaOptions": "-Dcom.amazonaws.services.s3.enableV4=true"
     "spark.driver.extraJavaOptions": "-Dcom.amazonaws.services.s3.enableV4=true"
     "spark.hadoop.fs.s3a.impl": "org.apache.hadoop.fs.s3a.S3AFileSystem"
-    #"spark.hive.metastore.uris": "thrift://metastore.ccma-pre.svc.cluster.local:9850"
+    "spark.hive.metastore.uris": "thrift://metastore.ccma-pre.svc.cluster.local:9850"
 
   image: "fps99/spark-s3:v10.1" # Custom image with aws jars, Spark 3.0.0 and Scala 2.12
   imagePullPolicy: IfNotPresent
