@@ -93,7 +93,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
         else:
             spark_config['executor_instances'] = 1
 
-        '''create_yaml_spark = PythonOperator(
+        create_yaml_spark = PythonOperator(
             task_id='create_yaml_spark',
             python_callable=create_yaml,
             op_kwargs={
@@ -107,7 +107,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
                 "arguments": spark_config["arguments"]
             },
             dag=dag,
-        )'''
+        )
         
 
         kubernetesOperator = SparkKubernetesOperator(
@@ -135,11 +135,11 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
             op_kwargs={'path': spark_config["yaml_dest_path_global"]},
             dag=dag,
         )
-        '''
+
         (
             create_yaml_spark
             >> kubernetesOperator
             >> [kubernetesSensor, remove_yaml]
-        )'''
-        kubernetesOperator >> [kubernetesSensor, remove_yaml]
+        )
+
     return taskgroup
