@@ -4,7 +4,7 @@ metadata:
   name: gfk-vgfk-csv-app
   namespace: ccma-pre
 spec:
-  sparkConfigMap: hive-site-cm
+  #sparkConfigMap: hive-site-cm
   #hadoopConfigMap: core-site-cm
   type: Java
   sparkUIOptions:
