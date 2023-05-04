@@ -191,16 +191,16 @@ with DAG(
         subject=ENTORNO + ' - DAG Kantar Success',
         html_content="""<h3>DAG Kantar</h3> <p>El dag """ + global_dag_config["job_name"] +  """se ha ejecutado correctamente</p> """,
         dag=dag
-)
+    )
     
     
-(spark_application_kantar_iaad >> 
-spark_application_kantar_iapd >> 
-[spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
-trino_execute_kantar_repair_tables >> 
-trino_execute_incremental_graella_kantar >> 
-trino_execute_incremental_kantar_sortides >> 
-trino_execute_incremental_kantar_rebots >> 
-trino_execute_incremental_kantar_abandonament 
->> success_email)
+    (spark_application_kantar_iaad >> 
+    spark_application_kantar_iapd >> 
+    [spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
+    trino_execute_kantar_repair_tables >> 
+    trino_execute_incremental_graella_kantar >> 
+    trino_execute_incremental_kantar_sortides >> 
+    trino_execute_incremental_kantar_rebots >> 
+    trino_execute_incremental_kantar_abandonament 
+    >> success_email)
 '''
