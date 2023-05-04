@@ -171,6 +171,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_rebots, 
                                         )
+    '''
 
     #  Insert incremental kantar abandonament
     trino_config_incremental_kantar_abandonament = {
@@ -183,7 +184,8 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_abandonament, 
                                         )
-'''
+                                        '''
+
     # Send success email 
     success_email = EmailOperator(
         task_id='send_email',
@@ -201,6 +203,5 @@ with DAG(
     trino_execute_incremental_graella_kantar >> 
     trino_execute_incremental_kantar_sortides >> 
     trino_execute_incremental_kantar_rebots >> 
-    trino_execute_incremental_kantar_abandonament 
-    >> success_email)
-'''
+    #trino_execute_incremental_kantar_abandonament >>
+    success_email)
