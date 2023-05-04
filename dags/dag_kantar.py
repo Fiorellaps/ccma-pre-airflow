@@ -61,7 +61,7 @@ with DAG(
                                         config=spark_config_kantar_iaad, 
                                         current_path=current_path
                                         )
-
+'''
     # Execute jar for kantar_iapd
     spark_config_kantar_iapd = {
         "use_case": "kantar_iapd",
@@ -188,10 +188,19 @@ with DAG(
     success_email = EmailOperator(
         task_id='send_email',
         to=global_dag_config['email_dest'],
-        subject=ENTORNO+' - DAG Kantar Success',
+        subject=ENTORNO + ' - DAG Kantar Success',
         html_content="""<h3>DAG Kantar</h3> <p>El dag """ + global_dag_config["job_name"] +  """se ha ejecutado correctamente</p> """,
         dag=dag
 )
     
     
-spark_application_kantar_iaad >> spark_application_kantar_iapd >> [spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> trino_execute_kantar_repair_tables >> trino_execute_incremental_graella_kantar >> trino_execute_incremental_kantar_sortides >> trino_execute_incremental_kantar_rebots >> trino_execute_incremental_kantar_abandonament >> success_email
+(spark_application_kantar_iaad >> 
+spark_application_kantar_iapd >> 
+[spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
+trino_execute_kantar_repair_tables >> 
+trino_execute_incremental_graella_kantar >> 
+trino_execute_incremental_kantar_sortides >> 
+trino_execute_incremental_kantar_rebots >> 
+trino_execute_incremental_kantar_abandonament 
+>> success_email)
+'''
