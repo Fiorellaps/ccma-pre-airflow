@@ -171,7 +171,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_rebots, 
                                         )
-'''
+
     #  Insert incremental kantar abandonament
     trino_config_incremental_kantar_abandonament = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_abandonament.hql",
@@ -183,7 +183,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_abandonament, 
                                         )
-
+'''
     # Send success email 
     success_email = EmailOperator(
         task_id='send_email',
