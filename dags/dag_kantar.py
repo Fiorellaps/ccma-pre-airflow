@@ -147,7 +147,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_graella_kantar, 
                                         )
-
+'''
     #  Insert incremental kantar sortides
     trino_config_incremental_kantar_sortides = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_sortides.hql",
@@ -183,7 +183,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_abandonament, 
                                         )
-'''
+
     # Send success email 
     success_email = EmailOperator(
         task_id='send_email',
