@@ -1,1 +1,4 @@
 temporal
+__pycache__
+.metals
+.vscode

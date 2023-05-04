@@ -1,7 +1,9 @@
 #v1.6
 from airflow import DAG
 from airflow.operators.email_operator import EmailOperator
+from airflow.models import Variable
 
+import os
 import sys
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
@@ -11,13 +13,13 @@ from functions.task_group_execute_trino_file import execute_trino_file
 from datetime import datetime, timedelta
 
 
-
-
 global_dag_config = {
     "job_name": "ETL-GFK",
     "description":"Ingesta GFK",
     "owner":"ccma",
-    "email_dest":["fpa@nextret.net", "cduran.b@ccma.cat"]
+    "email_dest":["fpa@nextret.net", "cduran.b@ccma.cat"],
+    "application_s3_location": "s3a://"+Variable.get("ccma_entorn")+"/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
+    "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }
 current_path = "dags"
 
@@ -29,7 +31,7 @@ dag_arguments =  {
     #"email_on_retry": False,
     #"retries": 1,
     #"retry_delay": timedelta(minutes=5),
-    #"dagrun_timeout":timedelta(minutes=60)
+    #"dagrun_timeout": timedelta(minutes=60)
     "max_active_runs": 1,
     "start_date": datetime(2022, 12, 1),
     "provide_context": True
@@ -47,10 +49,10 @@ with DAG(
     # Execute jar for gfk_vgfk_csv
     spark_config_gfk_pgfk_csv = {
         "use_case": "gfk_pgfk_csv",
-        "namespace": "ccma-pre",
+        "namespace": Variable.get("ccma_entorn"), # ccma-pre | ccma-pro
         "code_type": "Java", # Java, R or Python
-        "application_s3_location": "s3a://airflowdags/gfk/ccma-etl-0.2314.0-SNAPSHOT-jar-with-dependencies.jar",
-        "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess",
+        "application_s3_location": global_dag_config['application_s3_location'],
+        "application_main_class": global_dag_config['application_main_class'],
         "application_arguments": ["gfk_pgfk_csv"]
     }
 
@@ -63,10 +65,10 @@ with DAG(
     # Execute jar for gfk_vgfk_csv
     spark_config_gfk_vgfk_csv = {
         "use_case": "gfk_vgfk_csv",
-        "namespace": "ccma-pre",
+        "namespace": Variable.get("ccma_entorn"), # ccma-pre | ccma-pro
         "code_type": "Java", # Java, R or Python
-        "application_s3_location": "s3a://airflowdags/gfk/ccma-etl-0.2314.0-SNAPSHOT-jar-with-dependencies.jar",
-        "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess",
+        "application_s3_location": global_dag_config['application_s3_location'],
+        "application_main_class": global_dag_config['application_main_class'],
         "application_arguments": ["gfk_vgfk_csv"]
     }
     spark_application_gfk_vgfk_csv = execute_spark_application(
@@ -78,8 +80,8 @@ with DAG(
 
     # Repair table gfk_pgfk
     trino_config_pgfk_repair_tables = {
-        "query_file_path": "gfk/gfk_pgfk_repair_tables.hql",
-        "query_bucket_name": "airflowdags"
+        "query_file_path": "enterprise/zapping/queries/gfk_pgfk_repair_tables.hql",
+        "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
     }
     trino_config_pgfk_repair_tables["query_name"] = trino_config_pgfk_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
     
@@ -91,8 +93,8 @@ with DAG(
 
     # Repair table gfk_vgfk
     trino_config_vgfk_repair_tables = {
-        "query_file_path": "gfk/gfk_vgfk_repair_tables.hql",
-        "query_bucket_name": "airflowdags"
+        "query_file_path": "enterprise/zapping/queries/gfk_vgfk_repair_tables.hql",
+        "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
     }
     trino_config_vgfk_repair_tables["query_name"] = trino_config_vgfk_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
     
@@ -103,8 +105,8 @@ with DAG(
     
     #  Insert incremental gfk
     trino_config_gfk_insert_incremental = {
-        "query_file_path": "gfk/insert_incremental_gfk.hql",
-        "query_bucket_name": "airflowdags"
+        "query_file_path": "enterprise/zapping/queries/insert_incremental_gfk.hql",
+        "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
     }
     trino_config_gfk_insert_incremental["query_name"] = trino_config_gfk_insert_incremental['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
@@ -117,8 +119,8 @@ with DAG(
     success_email = EmailOperator(
         task_id='send_email',
         to=global_dag_config['email_dest'],
-        subject='Airflow Success',
-        html_content=""" <h3>Mensaje desde Airflow</h3> <p>El dag """ + global_dag_config["job_name"] +  """se ha ejecutado correctamente</p> """,
+        subject=Variable.get("ccma_entorn")+' - DAG Gfk Success',
+        html_content="""<h3>DAG Gfk</h3> <p>El dag """ + global_dag_config["job_name"] +  """se ha ejecutado correctamente</p> """,
         dag=dag
 )
     

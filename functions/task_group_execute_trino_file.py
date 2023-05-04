@@ -37,7 +37,7 @@ def execute_trino_file(dag: DAG, config):
         query = read_data_from_s3(
                             bucket_name=config['query_bucket_name'], 
                             file_path=config['query_file_path']
-                            )
+                            ).replace(';', '')
         task_id = "execute_trino_query"
         task = TrinoOperator(
                             task_id=task_id,

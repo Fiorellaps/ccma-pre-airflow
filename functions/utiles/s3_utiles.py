@@ -71,6 +71,6 @@ def read_data_from_s3 (bucket_name: str, file_path: str) -> str:
     )
     print("read", file_path)
     obj = s3_client.Object(bucket_name, file_path)
-    file_content = obj.get()['Body'].read().decode('utf-8').replace(';', '')
+    file_content = obj.get()['Body'].read().decode('utf-8')
     print("content", file_content)
     return file_content
