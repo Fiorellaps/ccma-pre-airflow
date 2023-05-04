@@ -159,7 +159,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_sortides, 
                                         )
-'''
+
     #  Insert incremental kantar rebots
     trino_config_incremental_kantar_rebots = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_rebots.hql",
@@ -171,7 +171,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_rebots, 
                                         )
-
+'''
     #  Insert incremental kantar abandonament
     trino_config_incremental_kantar_abandonament = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_abandonament.hql",
