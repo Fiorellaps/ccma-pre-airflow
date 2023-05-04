@@ -12,13 +12,13 @@ from functions.task_group_execute_spark_application import execute_spark_applica
 from functions.task_group_execute_trino_file import execute_trino_file
 from datetime import datetime, timedelta
 
-
+ENTORNO = Variable.get("ccma_entorn")
 global_dag_config = {
     "job_name": "ETL-Kantar",
     "description":"Ingesta Kantar",
     "owner":"ccma",
     "email_dest":["fpa@nextret.net", "cduran.b@ccma.cat"],
-    "application_s3_location": "s3a://" + Variable.get("ccma_entorn") + "/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
+    "application_s3_location": "s3a://" + ENTORNO + "/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
     "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }
 current_path = "dags"
@@ -49,7 +49,7 @@ with DAG(
     # Execute jar for kantar_iaad
     spark_config_kantar_iaad = {
         "use_case": "kantar_iaad",
-        "namespace": Variable.get("ccma_entorn"), # ccma-pre | ccma-pro
+        "namespace": ENTORNO, # ccma-pre | ccma-pro
         "code_type": "Java", # Java, R or Python
         "application_s3_location": global_dag_config['application_s3_location'],
         "application_main_class": global_dag_config['application_main_class'],
@@ -65,7 +65,7 @@ with DAG(
     # Execute jar for kantar_iapd
     spark_config_kantar_iapd = {
         "use_case": "kantar_iapd",
-        "namespace": Variable.get("ccma_entorn"), # ccma-pre | ccma-pro
+        "namespace": ENTORNO, # ccma-pre | ccma-pro
         "code_type": "Java", # Java, R or Python
         "application_s3_location": global_dag_config['application_s3_location'],
         "application_main_class": global_dag_config['application_main_class'],
@@ -80,7 +80,7 @@ with DAG(
     # Execute jar for kantar_iasd
     spark_config_kantar_iasd = {
         "use_case": "kantar_iasd",
-        "namespace": Variable.get("ccma_entorn"), # ccma-pre | ccma-pro
+        "namespace": ENTORNO, # ccma-pre | ccma-pro
         "code_type": "Java", # Java, R or Python
         "application_s3_location": global_dag_config['application_s3_location'],
         "application_main_class": global_dag_config['application_main_class'],
@@ -95,7 +95,7 @@ with DAG(
     # Execute jar for kantar_ma
     spark_config_kantar_ma = {
         "use_case": "kantar_ma",
-        "namespace": Variable.get("ccma_entorn"), # ccma-pre | ccma-pro
+        "namespace": ENTORNO, # ccma-pre | ccma-pro
         "code_type": "Java", # Java, R or Python
         "application_s3_location": global_dag_config['application_s3_location'],
         "application_main_class": global_dag_config['application_main_class'],
@@ -110,7 +110,7 @@ with DAG(
     # Execute jar for kantar_mp
     spark_config_kantar_mp = {
         "use_case": "kantar_mp",
-        "namespace": Variable.get("ccma_entorn"), # ccma-pre | ccma-pro
+        "namespace": ENTORNO, # ccma-pre | ccma-pro
         "code_type": "Java", # Java, R or Python
         "application_s3_location": global_dag_config['application_s3_location'],
         "application_main_class": global_dag_config['application_main_class'],
@@ -125,7 +125,7 @@ with DAG(
     # Repair kantar tables
     trino_config_kantar_repair_tables = {
         "query_file_path": "enterprise/zapping/queries/kantar_repair_tables.hql",
-        "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
+        "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
     trino_config_kantar_repair_tables["query_name"] = trino_config_kantar_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
     
@@ -139,7 +139,7 @@ with DAG(
     #  Insert incremental graella kantar
     trino_config_incremental_graella_kantar = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_graella_kantar.hql",
-        "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
+        "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
     trino_config_incremental_graella_kantar["query_name"] = trino_config_incremental_graella_kantar['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
@@ -151,7 +151,7 @@ with DAG(
     #  Insert incremental kantar sortides
     trino_config_incremental_kantar_sortides = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_sortides.hql",
-        "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
+        "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
     trino_config_incremental_kantar_sortides["query_name"] = trino_config_incremental_kantar_sortides['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
@@ -163,7 +163,7 @@ with DAG(
     #  Insert incremental kantar rebots
     trino_config_incremental_kantar_rebots = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_rebots.hql",
-        "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
+        "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
     trino_config_incremental_kantar_rebots["query_name"] = trino_config_incremental_kantar_rebots['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
@@ -175,7 +175,7 @@ with DAG(
     #  Insert incremental kantar abandonament
     trino_config_incremental_kantar_abandonament = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_abandonament.hql",
-        "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
+        "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
     trino_config_incremental_kantar_abandonament["query_name"] = trino_config_incremental_kantar_abandonament['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
@@ -188,7 +188,7 @@ with DAG(
     success_email = EmailOperator(
         task_id='send_email',
         to=global_dag_config['email_dest'],
-        subject=Variable.get("ccma_entorn")+' - DAG Kantar Success',
+        subject=ENTORNO+' - DAG Kantar Success',
         html_content="""<h3>DAG Kantar</h3> <p>El dag """ + global_dag_config["job_name"] +  """se ha ejecutado correctamente</p> """,
         dag=dag
 )
