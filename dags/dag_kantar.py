@@ -121,7 +121,7 @@ with DAG(
                                         config=spark_config_kantar_mp, 
                                         current_path=current_path
                                         )
-'''
+
     # Repair kantar tables
     trino_config_kantar_repair_tables = {
         "query_file_path": "enterprise/zapping/queries/kantar_repair_tables.hql",
@@ -133,7 +133,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_kantar_repair_tables, 
                                         )
-
+'''
     # Sembla que la limitació d'un sol statement per file s'ha corregit aquí: https://github.com/apache/airflow/issues/27610
     
     #  Insert incremental graella kantar
