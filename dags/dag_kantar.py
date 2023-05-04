@@ -61,7 +61,7 @@ with DAG(
                                         config=spark_config_kantar_iaad, 
                                         current_path=current_path
                                         )
-'''
+
     # Execute jar for kantar_iapd
     spark_config_kantar_iapd = {
         "use_case": "kantar_iapd",
@@ -76,7 +76,7 @@ with DAG(
                                         config=spark_config_kantar_iapd, 
                                         current_path=current_path
                                         )
-    
+'''
     # Execute jar for kantar_iasd
     spark_config_kantar_iasd = {
         "use_case": "kantar_iasd",
