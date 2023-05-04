@@ -133,7 +133,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_kantar_repair_tables, 
                                         )
-'''
+
     # Sembla que la limitació d'un sol statement per file s'ha corregit aquí: https://github.com/apache/airflow/issues/27610
     
     #  Insert incremental graella kantar
@@ -183,7 +183,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_abandonament, 
                                         )
-
+'''
     # Send success email 
     success_email = EmailOperator(
         task_id='send_email',
