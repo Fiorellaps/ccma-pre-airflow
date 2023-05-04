@@ -76,7 +76,7 @@ with DAG(
                                         config=spark_config_kantar_iapd, 
                                         current_path=current_path
                                         )
-'''
+
     # Execute jar for kantar_iasd
     spark_config_kantar_iasd = {
         "use_case": "kantar_iasd",
@@ -121,7 +121,7 @@ with DAG(
                                         config=spark_config_kantar_mp, 
                                         current_path=current_path
                                         )
-
+'''
     # Repair kantar tables
     trino_config_kantar_repair_tables = {
         "query_file_path": "enterprise/zapping/queries/kantar_repair_tables.hql",
