@@ -1,6 +1,7 @@
 #v1.6
 from airflow import DAG
 from airflow.operators.email_operator import EmailOperator
+from airflow.models import Variable
 
 import os
 import sys
@@ -17,7 +18,7 @@ global_dag_config = {
     "description":"Ingesta Kantar",
     "owner":"ccma",
     "email_dest":["fpa@nextret.net", "cduran.b@ccma.cat"],
-    "application_s3_location": "s3a://"+Variable.get("ccma_entorn")+"/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
+    "application_s3_location": "s3a://" + Variable.get("ccma_entorn") + "/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
     "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }
 current_path = "dags"
