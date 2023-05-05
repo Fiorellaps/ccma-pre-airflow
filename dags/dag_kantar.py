@@ -172,7 +172,6 @@ with DAG(
                                         config=trino_config_incremental_kantar_rebots, 
                                         )
     '''
-
     #  Insert incremental kantar abandonament
     trino_config_incremental_kantar_abandonament = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_abandonament.hql",
@@ -196,7 +195,8 @@ with DAG(
     )
     
     
-    ([spark_application_kantar_iaad , spark_application_kantar_iapd ,  spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
+    (spark_application_kantar_iaad >> spark_application_kantar_iapd >> 
+    [ spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
     trino_execute_kantar_repair_tables >> 
     trino_execute_incremental_graella_kantar >> 
     trino_execute_incremental_kantar_sortides >> 
