@@ -196,7 +196,7 @@ with DAG(
     )
     
     
-    ([spark_application_kantar_iaad >> spark_application_kantar_iapd >>  spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
+    ([spark_application_kantar_iaad , spark_application_kantar_iapd ,  spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
     trino_execute_kantar_repair_tables >> 
     trino_execute_incremental_graella_kantar >> 
     trino_execute_incremental_kantar_sortides >> 
