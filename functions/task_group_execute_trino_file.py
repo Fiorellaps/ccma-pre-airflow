@@ -43,18 +43,9 @@ def process_trino_query(bucket_name, file_path):
 def execute_trino_file(dag: DAG, config):
 
     task_group_id =  "execute_" + config['query_name']
-    with TaskGroup(
-        task_group_id, tooltip="Tarea para ejecutar las queries de un fichero sql"
-    ) as taskgroup:
-        
-        '''query = read_data_from_s3(
-                            bucket_name=config['query_bucket_name'], 
-                            file_path=config['query_file_path']
-                            )
-        '''
-        ##.replace(';', '')
-        task_id = "execute_trino_query"
-        execute_trino_query = PythonOperator(
+
+    execute_trino_query = PythonOperator(
+                            task_id = task_group_id,
                             python_callable=process_trino_query,
                             op_kwargs={
                                 "file_path": config["query_file_path"],
@@ -62,8 +53,5 @@ def execute_trino_file(dag: DAG, config):
                             },
                             dag=dag
                         )
-
-        execute_trino_query
-       
-
-    return taskgroup
+    
+    return execute_trino_query
