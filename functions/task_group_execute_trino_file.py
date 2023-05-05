@@ -30,12 +30,12 @@ def process_trino_query(bucket_name, file_path):
         query_list = query.split(";")
         for query in query_list:
             if len(query) > 5:
-                try:
-                    cur.execute(query)
-                    rows = cur.fetchall()
-                    print("---------- ok -------------", rows)
-                except trino.dbapi.Error as e:
-                    print(f'Error ejecutando Trino query: {e}')
+                ##try:
+                cur.execute(query)
+                rows = cur.fetchall()
+                print("---------- resultado Trino query -------------", rows)
+                ##except trino.dbapi.Error as e:
+                #print(f'Error ejecutando Trino query: {e}')
                  
             
 
