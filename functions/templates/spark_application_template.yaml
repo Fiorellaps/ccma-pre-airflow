@@ -14,6 +14,8 @@ spec:
   sparkConf:
     "spark.eventLog.enabled": "true"
     "spark.eventLog.dir": "s3a://spark/logs/"
+    "spark.history.fs.logDirectory": "s3a://spark/logs/"
+    "spark.history.fs.update.interval": "5s"
     "spark.hadoop.fs.s3a.access.key": accesKey
     "spark.hadoop.fs.s3a.secret.key": secretKey
     "spark.hadoop.fs.s3a.endpoint": 10.210.4.193:8080
