@@ -17,7 +17,7 @@ global_dag_config = {
     "job_name": "ETL-Kantar",
     "description":"Ingesta Kantar",
     "owner":"ccma",
-    "email_dest":["fpa@nextret.net", "fbigorra.s@ccma.cat","jmarco.q@ccma.cat" ],
+    "email_dest":["fpa@nextret.net" ],
     "application_s3_location": "s3a://" + ENTORNO + "/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
     "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }
