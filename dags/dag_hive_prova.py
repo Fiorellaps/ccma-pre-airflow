@@ -1,7 +1,8 @@
 from airflow import DAG
 from airflow.operators.email_operator import EmailOperator
 from airflow.models import Variable
-from airflow.operators.hive_operator import HiveOperator
+from airflow.providers.apache.hive.hooks.hive import HiveCliHook
+from airflow.operators.python_operator import PythonOperator
 
 
 import sys
@@ -36,6 +37,15 @@ dag_arguments =  {
     "provide_context": True
 }
 
+
+def execute_hive_query():
+    hive_hook = HiveCliHook(hive_cli_conn_id='hive_default')  # Connection ID for Hive
+    hive_query = """
+    -- Your Hive query here
+    show tables from ccma_analytics
+    """
+    hive_hook.run_cli(hql=hive_query)
+
 with DAG(
    global_dag_config["job_name"],
    default_args=dag_arguments,
@@ -45,13 +55,9 @@ with DAG(
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
 
-    hive_query = """
-    show tables from ccma_analytics
-    """
 
-    hive_task = HiveOperator(
-        task_id='hive_query_task',
-        hql=hive_query,
-        hive_cli_conn_id='hiveserver2_default',  # Connection ID for Hive
-        dag=dag,
+    hive_task = PythonOperator(
+    task_id='hive_query_task',
+    python_callable=execute_hive_query,
+    dag=dag,
     )
