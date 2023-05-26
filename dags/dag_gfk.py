@@ -17,7 +17,7 @@ global_dag_config = {
     "job_name": "ETL-GFK",
     "description":"Ingesta GFK",
     "owner":"ccma",
-    "email_dest":["fpa@nextret.net", "cduran.b@ccma.cat"],
+    "email_dest":["fpa@nextret.net"],
     "application_s3_location": "s3a://"+Variable.get("ccma_entorn")+"/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
     "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }
