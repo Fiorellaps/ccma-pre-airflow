@@ -39,7 +39,7 @@ dag_arguments =  {
 
 
 def execute_hive_query():
-    hive_hook = HiveCliHook(hive_cli_conn_id='hive_cli_default')  # Connection ID for Hive
+    hive_hook = HiveCliHook(hive_cli_conn_id='hiveserver2_default')  # Connection ID for Hive
     hive_query = """
     -- Your Hive query here
     show tables from ccma_analytics
