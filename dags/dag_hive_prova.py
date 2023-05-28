@@ -249,10 +249,6 @@ ON       s.fecha                           = p.fecha
   AND    s.id_plataforma                   = p.id_plataforma 
   AND    s.individuo                       = p.individuo 
   AND    s.hora_inicio_visionado_siguiente = p.hora_inicio_visionado
-  
-SELECT *
-FROM ccma_analytics.kantar_graella_visualitzacions
-LIMIT 100
     """
     hive_hook.run_cli(hql=hive_query)
 
