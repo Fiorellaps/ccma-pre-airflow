@@ -41,8 +41,10 @@ dag_arguments =  {
 def execute_hive_query():
     hive_hook = HiveCliHook(hive_cli_conn_id='hiveserver2_default')  # Connection ID for Hive
     hive_query = """
-    -- Your Hive query here
-    show tables from ccma_analytics
+SELECT *
+FROM ccma_analytics.kantar_graella_visualitzacions
+LIMIT 100
+; 
     """
     hive_hook.run_cli(hql=hive_query)
 
