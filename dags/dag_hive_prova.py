@@ -250,6 +250,11 @@ ON       s.fecha                           = p.fecha
   AND    s.individuo                       = p.individuo 
   AND    s.hora_inicio_visionado_siguiente = p.hora_inicio_visionado
     """
+    hive_query = """SELECT *
+    FROM ccma_analytics.kantar_pelicules
+    LIMIT 100
+    ;   """
+
     hive_hook.run_cli(hql=hive_query)
 
 with DAG(
