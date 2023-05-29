@@ -113,7 +113,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
         kubernetesOperator = SparkKubernetesOperator(
             task_id='spark_submit',
             namespace=spark_config["namespace"],
-            application_file=spark_config["yaml_dest_path_relative"],
+            application_file=spark_config["yaml_dest_path_global"],
             do_xcom_push=True,
             dag=dag,
         )
