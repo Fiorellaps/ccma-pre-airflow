@@ -52,8 +52,6 @@ def create_yaml (template_path: str,
         list_doc["spec"]["driver"]["cores"] = driver_cores
         list_doc["spec"]["driver"]["memory"] = driver_memory
 
-        print("list_doc", list_doc)
-
     with open(dets_path, "w") as file:
         yaml.dump(list_doc, file, Dumper=MyDumper)
     
