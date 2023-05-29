@@ -27,7 +27,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
 
     # Define Job metadata
     job_config = {
-        "job_name": "ExecuteSparkApplication",
+        "job_name": "app",
     }
     
     job_config['task_name'] = job_config["job_name"] + "_" + config['use_case'] 
