@@ -98,7 +98,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
             python_callable=create_yaml,
             op_kwargs={
                 "template_path": spark_config["template_path"],
-                "dets_path": spark_config["yaml_dest_path_relative"],
+                "dets_path": spark_config["yaml_dest_path_global"],
                 "application_name": spark_config["application_name"],
                 "code_type": spark_config["code_type"],
                 "image": spark_config["image"],
@@ -113,7 +113,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
         kubernetesOperator = SparkKubernetesOperator(
             task_id='spark_submit',
             namespace=spark_config["namespace"],
-            application_file=spark_config["yaml_dest_path_global"],
+            application_file=spark_config["yaml_dest_path_relative"],
             do_xcom_push=True,
             dag=dag,
         )
