@@ -32,7 +32,7 @@ def create_yaml (template_path: str,
             arguments = [arguments]
         
         acces_key = Variable.get("aws_access_key_id")
-        secret_key = "yBUSPjz6OxKcIChDGQ0Cd1I7o9Av4bZYZJYT3CJJ"
+        secret_key = Variable.get("aws_secret_access_key")
         s3_endpoint = Variable.get("s3_endpoint_url")
         s3_endpoint = s3_endpoint.split("://")[1]
         list_doc = yaml.safe_load(file)
