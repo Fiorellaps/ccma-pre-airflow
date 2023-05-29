@@ -15,7 +15,7 @@ from trino.dbapi import trino
 
 def process_trino_query(bucket_name, file_path):
         trino_host = Variable.get("trino_host")
-        trino_port = Variable.get("trino_port")
+        trino_port = int(Variable.get("trino_port"))
 
         conn = trino.dbapi.connect(
             host=trino_host,
