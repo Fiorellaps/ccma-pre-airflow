@@ -39,7 +39,7 @@ dag_arguments =  {
 
 
 def execute_hive_query():
-    hive_hook = HiveCliHook(hive_cli_conn_id='hiveserver2_default')  # Connection ID for Hive
+    hive_hook = HiveCliHook(hive_cli_conn_id='hive_cli_default')  # Connection ID for Hive
     hive_query = """
 -- La select de PRGASIS era incorrecta: a l'hora de determinar que per una sortida no hi ha rebot nomes tenia en compte la seguent del mateix canal. Es podia donar que la seguent no provoques REBOT, pero que n'hi hagues una altra
 --                                      posterior, encara dins del GAP d'ubna hora que si que provoques el REBOT.
