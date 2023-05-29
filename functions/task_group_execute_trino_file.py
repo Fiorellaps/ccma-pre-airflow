@@ -18,8 +18,8 @@ def process_trino_query(bucket_name, file_path):
         trino_port = Variable.get("trino_port")
 
         conn = trino.dbapi.connect(
-            host="trino.apps.k8spro.nextret.net",
-            port=32056,
+            host=trino_host,
+            port=trino_port,
             catalog="hive",
             user='admin')
         cur = conn.cursor()
