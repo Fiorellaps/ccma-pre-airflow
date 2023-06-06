@@ -1,5 +1,6 @@
 from airflow.models import Variable
 
+import os
 import yaml
 
 
@@ -15,7 +16,7 @@ yaml.add_representer(str, quoted_presenter)
 
     
 def create_yaml (template_path: str, 
-                dets_path:str, 
+                dest_path:str, 
                 application_name:str, 
                 code_type:str, 
                 image:str, 
@@ -52,7 +53,9 @@ def create_yaml (template_path: str,
         list_doc["spec"]["driver"]["cores"] = driver_cores
         list_doc["spec"]["driver"]["memory"] = driver_memory
 
-    with open(dets_path, "w") as file:
+    with open(dest_path, "w") as file:
         yaml.dump(list_doc, file, Dumper=MyDumper)
-    
-    print("yaml written in: " + dets_path)
+    print(os.system("ls -l /opt/bitnami/airflow/dags/git_dags/dags/"))
+    print(os.system("ls -l /opt/bitnami/airflow/dags/git_dags/"))
+
+    print("yaml written in: " + dest_path)
