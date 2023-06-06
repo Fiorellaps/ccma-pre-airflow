@@ -98,7 +98,7 @@ def execute_spark_application(dag: DAG, config, current_path="") -> TaskGroup:
             python_callable=create_yaml,
             op_kwargs={
                 "template_path": spark_config["template_path"],
-                "dets_path": spark_config["yaml_dest_path_global"],
+                "dest_path": spark_config["yaml_dest_path_global"],
                 "application_name": spark_config["application_name"],
                 "code_type": spark_config["code_type"],
                 "image": spark_config["image"],
