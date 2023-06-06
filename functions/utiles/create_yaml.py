@@ -57,7 +57,7 @@ def create_yaml (template_path: str,
         yaml.dump(list_doc, file, Dumper=MyDumper)
 
     import glob
-    print(os.listdir("/opt/bitnami/airflow/dags/git_dags/dags/*"))
-    print(os.listdir("/opt/bitnami/airflow/dags/git_dags/*"))
+    print(os.listdir("/opt/bitnami/airflow/dags/git_dags/dags"))
+    print(os.listdir("/opt/bitnami/airflow/dags/git_dags"))
 
     print("yaml written in: " + dest_path)
