@@ -19,7 +19,7 @@ global_dag_config = {
     "job_name": "ETL-Kantar",
     "description":"Ingesta Kantar",
     "owner":"ccma",
-    "email_dest":["fpa@nextret.net", "jmarco.q@ccma.cat", "fbigorra.s@ccma.cat"],
+    "email_dest":["fpa@nextret.net", "jmarco.q@ccma.cat", "fbigorra.s@ccma.cat" ],
     "application_s3_location": "s3a://" + ENTORNO + "/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
     "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }
@@ -47,7 +47,7 @@ with DAG(
    schedule_interval='@weekly', #timedelta(days=1)
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
-    '''
+
     # Execute jar for kantar_iaad
     spark_config_kantar_iaad = {
         "use_case": "kantar_iaad",
@@ -173,7 +173,7 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_rebots, 
                                         )
-    '''
+    
     #  Insert incremental kantar abandonament
     trino_config_incremental_kantar_abandonament = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_abandonamet.hql",
@@ -194,14 +194,13 @@ with DAG(
         html_content="""<h3>DAG Kantar</h3> <p>El dag """ + global_dag_config["job_name"] +  """se ha ejecutado correctamente</p> """,
         dag=dag
     )
-
-    trino_execute_incremental_kantar_abandonament >> success_email
     
-    '''(spark_application_kantar_iapd >>spark_application_kantar_iaad >> 
+    
+    (spark_application_kantar_iapd >>spark_application_kantar_iaad >> 
     [ spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
     trino_execute_kantar_repair_tables >> 
     trino_execute_incremental_graella_kantar >> 
     trino_execute_incremental_kantar_sortides >> 
     trino_execute_incremental_kantar_rebots >> 
     trino_execute_incremental_kantar_abandonament >>
-    success_email)'''
+    success_email)
