@@ -29,7 +29,8 @@ def process_trino_query(bucket_name, file_path):
         )
         query_list = query.split(";")
         for query in query_list:
-            if len(query) > 5:
+            query = query.strip()
+            if len(query) > 0:
                 ##try:
                 cur.execute(query)
                 rows = cur.fetchall()
