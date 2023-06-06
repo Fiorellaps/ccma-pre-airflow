@@ -19,7 +19,7 @@ global_dag_config = {
     "job_name": "ETL-Kantar",
     "description":"Ingesta Kantar",
     "owner":"ccma",
-    "email_dest":["fpa@nextret.net", '''"jmarco.q@ccma.cat", "fbigorra.s@ccma.cat"''' ],
+    "email_dest":["fpa@nextret.net", "jmarco.q@ccma.cat", "fbigorra.s@ccma.cat"],
     "application_s3_location": "s3a://" + ENTORNO + "/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
     "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }
@@ -194,7 +194,7 @@ with DAG(
         html_content="""<h3>DAG Kantar</h3> <p>El dag """ + global_dag_config["job_name"] +  """se ha ejecutado correctamente</p> """,
         dag=dag
     )
-    
+
     trino_execute_incremental_kantar_abandonament >> success_email
     
     '''(spark_application_kantar_iapd >>spark_application_kantar_iaad >> 
