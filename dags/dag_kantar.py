@@ -31,7 +31,7 @@ dag_arguments =  {
     "email": global_dag_config['email_dest'],
     "email_on_failure": True,
     #"email_on_retry": False,
-    #"retries": 1,
+    "retries": 3,
     #"retry_delay": timedelta(minutes=5),
     #"dagrun_timeout": timedelta(minutes=60)
     "max_active_runs": 1,
@@ -47,7 +47,7 @@ with DAG(
    schedule_interval='@weekly', #timedelta(days=1)
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
-    
+    '''
     # Execute jar for kantar_iaad
     spark_config_kantar_iaad = {
         "use_case": "kantar_iaad",
@@ -173,10 +173,10 @@ with DAG(
                                         dag=dag, 
                                         config=trino_config_incremental_kantar_rebots, 
                                         )
-    
+    '''
     #  Insert incremental kantar abandonament
     trino_config_incremental_kantar_abandonament = {
-        "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_abandonament.hql",
+        "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_abandonamet.hql",
         "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
     trino_config_incremental_kantar_abandonament["query_name"] = trino_config_incremental_kantar_abandonament['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
@@ -195,12 +195,13 @@ with DAG(
         dag=dag
     )
     
+    trino_execute_incremental_kantar_abandonament >> success_email
     
-    (spark_application_kantar_iapd >>spark_application_kantar_iaad >> 
+    '''(spark_application_kantar_iapd >>spark_application_kantar_iaad >> 
     [ spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
     trino_execute_kantar_repair_tables >> 
     trino_execute_incremental_graella_kantar >> 
     trino_execute_incremental_kantar_sortides >> 
     trino_execute_incremental_kantar_rebots >> 
     trino_execute_incremental_kantar_abandonament >>
-    success_email)
+    success_email)'''
