@@ -29,9 +29,9 @@ dag_arguments =  {
     #"end_date": datetime(),
     #"depends_on_past": False,
     "email": global_dag_config['email_dest'],
-    "email_on_failure": True,
+    "email_on_failure": False,
     #"email_on_retry": False,
-    "retries": 3,
+    "retries": 1,
     #"retry_delay": timedelta(minutes=5),
     #"dagrun_timeout": timedelta(minutes=60)
     "max_active_runs": 1,
