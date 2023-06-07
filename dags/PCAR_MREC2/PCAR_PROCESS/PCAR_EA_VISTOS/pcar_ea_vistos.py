@@ -1,4 +1,5 @@
-from airflow.providers.apache.sqoop.operators.sqoop import SqoopOperator
+#from airflow.providers.apache.sqoop.operators.sqoop import SqoopOperator
+from airflow.operators.python_operator import PythonOperator
 
 from airflow.models import Variable
 from airflow.utils.task_group import TaskGroup
@@ -50,12 +51,21 @@ def pcar_ea_vistos(dag: DAG, config, current_path="") -> TaskGroup:
         
         # sq_carrega_dades
         sq_carrega_dades_command = "import --connect jdbc:mysql://localhost/mydatabase --table mytable --username myuser --password mypassword"
-        sq_carrega_dades = SqoopOperator(
+        sq_carrega_dades = PythonOperator(
+            task_id='carrega_step_config',
+            python_callable=to_do,
+            op_kwargs={
+                "param": "",
+            },
+            dag=dag,
+        )
+
+        '''sq_carrega_dades = SqoopOperator(
             task_id='sqoop_import',
             dag=dag,
             conn_id='sqoop_default',  # Airflow connection ID for Sqoop
             cmd=sq_carrega_dades_command
-        )
+        )'''
 
         # consolidacio_B_03_video_log
         hive_config_consolidacio_B_03_video_log = {
