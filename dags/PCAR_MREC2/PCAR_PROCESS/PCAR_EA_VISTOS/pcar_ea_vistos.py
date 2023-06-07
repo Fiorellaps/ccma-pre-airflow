@@ -1,4 +1,4 @@
-from airflow.operators.sqoop_operator import SqoopOperator
+from airflow.providers.apache.sqoop.operators.sqoop import SqoopOperator
 
 from airflow.models import Variable
 from airflow.utils.task_group import TaskGroup
