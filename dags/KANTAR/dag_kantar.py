@@ -9,7 +9,7 @@ sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
 
 from functions.task_group_execute_spark_application import execute_spark_application
-#from functions.task_group_execute_trino_file import execute_trino_file
+#from functions.task_group_execute_hive_file import execute_hive_file
 from functions.task_group_execute_hive_hql import execute_hive_hql
 
 from datetime import datetime, timedelta
@@ -125,65 +125,65 @@ with DAG(
                                         )
 
     # Repair kantar tables
-    trino_config_kantar_repair_tables = {
+    hive_config_kantar_repair_tables = {
         "query_file_path": "enterprise/zapping/queries/kantar_repair_tables.hql",
         "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
-    trino_config_kantar_repair_tables["query_name"] = trino_config_kantar_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    hive_config_kantar_repair_tables["query_name"] = hive_config_kantar_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
     
-    trino_execute_kantar_repair_tables = execute_hive_hql(
+    hive_execute_kantar_repair_tables = execute_hive_hql(
                                         dag=dag, 
-                                        config=trino_config_kantar_repair_tables, 
+                                        config=hive_config_kantar_repair_tables, 
                                         )
 
     # Sembla que la limitació d'un sol statement per file s'ha corregit aquí: https://github.com/apache/airflow/issues/27610
     
     #  Insert incremental graella kantar
-    trino_config_incremental_graella_kantar = {
+    hive_config_incremental_graella_kantar = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_graella_kantar.hql",
         "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
-    trino_config_incremental_graella_kantar["query_name"] = trino_config_incremental_graella_kantar['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
+    hive_config_incremental_graella_kantar["query_name"] = hive_config_incremental_graella_kantar['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
-    trino_execute_incremental_graella_kantar = execute_hive_hql(
+    hive_execute_incremental_graella_kantar = execute_hive_hql(
                                         dag=dag, 
-                                        config=trino_config_incremental_graella_kantar, 
+                                        config=hive_config_incremental_graella_kantar, 
                                         )
     
     #  Insert incremental kantar sortides
-    trino_config_incremental_kantar_sortides = {
+    hive_config_incremental_kantar_sortides = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_sortides.hql",
         "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
-    trino_config_incremental_kantar_sortides["query_name"] = trino_config_incremental_kantar_sortides['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
+    hive_config_incremental_kantar_sortides["query_name"] = hive_config_incremental_kantar_sortides['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
-    trino_execute_incremental_kantar_sortides = execute_hive_hql(
+    hive_execute_incremental_kantar_sortides = execute_hive_hql(
                                         dag=dag, 
-                                        config=trino_config_incremental_kantar_sortides, 
+                                        config=hive_config_incremental_kantar_sortides, 
                                         )
 
     #  Insert incremental kantar rebots
-    trino_config_incremental_kantar_rebots = {
+    hive_config_incremental_kantar_rebots = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_rebots.hql",
         "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
-    trino_config_incremental_kantar_rebots["query_name"] = trino_config_incremental_kantar_rebots['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
+    hive_config_incremental_kantar_rebots["query_name"] = hive_config_incremental_kantar_rebots['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
-    trino_execute_incremental_kantar_rebots = execute_hive_hql(
+    hive_execute_incremental_kantar_rebots = execute_hive_hql(
                                         dag=dag, 
-                                        config=trino_config_incremental_kantar_rebots, 
+                                        config=hive_config_incremental_kantar_rebots, 
                                         )
     
     #  Insert incremental kantar abandonament
-    trino_config_incremental_kantar_abandonament = {
+    hive_config_incremental_kantar_abandonament = {
         "query_file_path": "enterprise/zapping/queries/insert_incremental_kantar_abandonamet.hql",
         "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
-    trino_config_incremental_kantar_abandonament["query_name"] = trino_config_incremental_kantar_abandonament['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
+    hive_config_incremental_kantar_abandonament["query_name"] = hive_config_incremental_kantar_abandonament['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').replace(' ', '').lower()
     
-    trino_execute_incremental_kantar_abandonament = execute_hive_hql(
+    hive_execute_incremental_kantar_abandonament = execute_hive_hql(
                                         dag=dag, 
-                                        config=trino_config_incremental_kantar_abandonament, 
+                                        config=hive_config_incremental_kantar_abandonament, 
                                         )
 
     # Send success email 
@@ -198,9 +198,9 @@ with DAG(
     
     (spark_application_kantar_iapd >>spark_application_kantar_iaad >> 
     [ spark_application_kantar_iasd, spark_application_kantar_ma, spark_application_kantar_mp] >> 
-    trino_execute_kantar_repair_tables >> 
-    trino_execute_incremental_graella_kantar >> 
-    trino_execute_incremental_kantar_sortides >> 
-    trino_execute_incremental_kantar_rebots >> 
-    trino_execute_incremental_kantar_abandonament >>
+    hive_execute_kantar_repair_tables >> 
+    hive_execute_incremental_graella_kantar >> 
+    hive_execute_incremental_kantar_sortides >> 
+    hive_execute_incremental_kantar_rebots >> 
+    hive_execute_incremental_kantar_abandonament >>
     success_email)
