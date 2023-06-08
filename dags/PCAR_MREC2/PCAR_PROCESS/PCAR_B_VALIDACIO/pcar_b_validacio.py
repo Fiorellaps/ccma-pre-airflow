@@ -49,7 +49,7 @@ def pcar_b_validacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/query_warning.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_B_query_warning["query_name"] = hive_config_consolidacio_B_query_warning['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_B_query_warning["query_name"] = hive_config_consolidacio_B_query_warning['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_B_query_warning = execute_hive_hql(
                                             dag=dag, 
@@ -61,7 +61,7 @@ def pcar_b_validacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/final_validacio_step.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_B_final_validacio_step["query_name"] = hive_config_consolidacio_B_final_validacio_step['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_B_final_validacio_step["query_name"] = hive_config_consolidacio_B_final_validacio_step['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_B_final_validacio_step = execute_hive_hql(
                                             dag=dag, 

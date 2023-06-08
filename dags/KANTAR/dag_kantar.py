@@ -129,7 +129,7 @@ with DAG(
         "query_file_path": "enterprise/zapping/queries/kantar_repair_tables.hql",
         "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
     }
-    hive_config_kantar_repair_tables["query_name"] = hive_config_kantar_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    hive_config_kantar_repair_tables["query_name"] = hive_config_kantar_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].lower()
     
     hive_execute_kantar_repair_tables = execute_hive_hql(
                                         dag=dag, 

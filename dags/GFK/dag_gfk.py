@@ -83,7 +83,7 @@ with DAG(
         "query_file_path": "enterprise/zapping/queries/gfk_pgfk_repair_tables.hql",
         "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
     }
-    trino_config_pgfk_repair_tables["query_name"] = trino_config_pgfk_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    trino_config_pgfk_repair_tables["query_name"] = trino_config_pgfk_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].lower()
     
     trino_execute_pgfk_repair_tables = execute_trino_file(
                                         dag=dag, 
@@ -96,7 +96,7 @@ with DAG(
         "query_file_path": "enterprise/zapping/queries/gfk_vgfk_repair_tables.hql",
         "query_bucket_name": Variable.get("ccma_entorn") # ccma-pre | ccma-pro
     }
-    trino_config_vgfk_repair_tables["query_name"] = trino_config_vgfk_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    trino_config_vgfk_repair_tables["query_name"] = trino_config_vgfk_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].lower()
     
     trino_execute_vgfk_repair_tables = execute_trino_file(
                                         dag=dag, 

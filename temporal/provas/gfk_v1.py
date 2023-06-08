@@ -74,7 +74,7 @@ with DAG(
         "query_file_path": "gfk/gfk_repair_tables.hql",
         "query_bucket_name": "airflowdags"
     }
-    query_file_name = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+    query_file_name = trino_config['query_file_path'].split('/')[-1].split('.hql')[0].lower()
     task_id_1 = "execute_trino_query_1" + query_file_name.lower().replace('_', '')
     
     

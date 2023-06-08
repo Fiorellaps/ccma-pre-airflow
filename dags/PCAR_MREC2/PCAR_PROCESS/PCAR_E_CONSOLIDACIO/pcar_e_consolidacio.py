@@ -39,7 +39,7 @@ def pcar_e_consolidacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/E1_audiencia_cons.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_E1_audiencia_cons["query_name"] = hive_config_consolidacio_E1_audiencia_cons['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_E1_audiencia_cons["query_name"] = hive_config_consolidacio_E1_audiencia_cons['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_E1_audiencia_cons = execute_hive_hql(
                                             dag=dag, 

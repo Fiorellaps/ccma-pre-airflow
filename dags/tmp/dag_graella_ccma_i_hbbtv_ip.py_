@@ -127,7 +127,7 @@ from datetime import datetime, timedelta
 #         "query_file_path": "enterprise/zapping/queries/kantar_repair_tables.hql",
 #         "query_bucket_name": os.environ["ENTORN"] # ccma-pre | ccma-pro
 #     }
-#     trino_config_kantar_repair_tables["query_name"] = trino_config_kantar_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+#     trino_config_kantar_repair_tables["query_name"] = trino_config_kantar_repair_tables['query_file_path'].split('/')[-1].split('.hql')[0].lower()
     
 #     trino_execute_kantar_repair_tables = execute_trino_file(
 #                                         dag=dag, 

@@ -39,7 +39,7 @@ def pcar_c_reproduccions(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/C1_raw_bloc_valides_aux.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_C1_raw_bloc_valides_aux["query_name"] = hive_config_consolidacio_C1_raw_bloc_valides_aux['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_C1_raw_bloc_valides_aux["query_name"] = hive_config_consolidacio_C1_raw_bloc_valides_aux['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_C1_raw_bloc_valides_aux = execute_hive_hql(
                                             dag=dag, 
@@ -51,7 +51,7 @@ def pcar_c_reproduccions(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/C2_reproduccions.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_C2_reproduccions["query_name"] = hive_config_consolidacio_C2_reproduccions['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_C2_reproduccions["query_name"] = hive_config_consolidacio_C2_reproduccions['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_C2_reproduccions = execute_hive_hql(
                                             dag=dag, 
@@ -63,7 +63,7 @@ def pcar_c_reproduccions(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/C3_raw_ant_cons_no_cons.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_C3_raw_ant_cons_no_cons["query_name"] = hive_config_consolidacio_C3_raw_ant_cons_no_cons['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_C3_raw_ant_cons_no_cons["query_name"] = hive_config_consolidacio_C3_raw_ant_cons_no_cons['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_C3_raw_ant_cons_no_cons = execute_hive_hql(
                                             dag=dag, 

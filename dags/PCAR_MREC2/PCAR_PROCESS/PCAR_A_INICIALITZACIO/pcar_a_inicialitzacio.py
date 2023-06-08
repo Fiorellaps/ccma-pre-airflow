@@ -40,7 +40,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/A1_setup.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_A1_setup["query_name"] = hive_config_consolidacio_A1_setup['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_A1_setup["query_name"] = hive_config_consolidacio_A1_setup['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_A1_setup = execute_hive_hql(
                                             dag=dag, 
@@ -52,7 +52,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/A2_setting_base.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_A2_setting_base["query_name"] = hive_config_consolidacio_A2_setting_base['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_A2_setting_base["query_name"] = hive_config_consolidacio_A2_setting_base['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_A2_setting_base = execute_hive_hql(
                                             dag=dag, 
@@ -73,7 +73,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/A3_setting_dades.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_A3_setting_dades["query_name"] = hive_config_consolidacio_A3_setting_dades['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_A3_setting_dades["query_name"] = hive_config_consolidacio_A3_setting_dades['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_A3_setting_dades = execute_hive_hql(
                                             dag=dag, 
@@ -85,7 +85,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/A4_raw_bloc_aux.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_A4_raw_bloc_aux["query_name"] = hive_config_consolidacio_A4_raw_bloc_aux['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_A4_raw_bloc_aux["query_name"] = hive_config_consolidacio_A4_raw_bloc_aux['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_A4_raw_bloc_aux = execute_hive_hql(
                                             dag=dag, 

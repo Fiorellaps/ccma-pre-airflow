@@ -39,7 +39,7 @@ def pcar_d_warnings(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/D1_verif_aud_disp.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_D1_verif_aud_disp["query_name"] = hive_config_consolidacio_D1_verif_aud_disp['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_D1_verif_aud_disp["query_name"] = hive_config_consolidacio_D1_verif_aud_disp['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_D1_verif_aud_disp = execute_hive_hql(
                                             dag=dag, 
@@ -51,7 +51,7 @@ def pcar_d_warnings(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/D2_verif_aud_disp_historic.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_D2_verif_aud_disp_historic["query_name"] = hive_config_consolidacio_D2_verif_aud_disp_historic['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_D2_verif_aud_disp_historic["query_name"] = hive_config_consolidacio_D2_verif_aud_disp_historic['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_D2_verif_aud_disp_historic = execute_hive_hql(
                                             dag=dag, 

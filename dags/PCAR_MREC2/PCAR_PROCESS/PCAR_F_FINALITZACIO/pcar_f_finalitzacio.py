@@ -39,7 +39,7 @@ def pcar_f_finalitzacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/F1_index_inval_pends_cons.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_F1_index_inval_pends_cons["query_name"] = hive_config_consolidacio_F1_index_inval_pends_cons['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_F1_index_inval_pends_cons["query_name"] = hive_config_consolidacio_F1_index_inval_pends_cons['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_F1_index_inval_pends_cons = execute_hive_hql(
                                             dag=dag, 
@@ -51,7 +51,7 @@ def pcar_f_finalitzacio(dag: DAG, config, current_path="") -> TaskGroup:
             "query_file_path": "opt/pcar/F2_bloc.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
-        hive_config_consolidacio_F2_bloc["query_name"] = hive_config_consolidacio_F2_bloc['query_file_path'].split('/')[-1].split('.hql')[0].replace('_', '').lower()
+        hive_config_consolidacio_F2_bloc["query_name"] = hive_config_consolidacio_F2_bloc['query_file_path'].split('/')[-1].split('.hql')[0].lower()
         
         hive_execute_consolidacio_F2_bloc = execute_hive_hql(
                                             dag=dag, 
