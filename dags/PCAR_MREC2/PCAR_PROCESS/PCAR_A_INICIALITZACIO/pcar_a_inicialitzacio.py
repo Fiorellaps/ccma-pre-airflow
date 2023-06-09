@@ -16,7 +16,8 @@ ENTORNO = Variable.get("ccma_entorn")
 
 
 def to_do(param:str):
-    return True
+    print("error")
+    return sys.exit('Error')
     
 
 def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
@@ -37,7 +38,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
 
         # consolidacio_A1_setup
         hive_config_consolidacio_A1_setup = {
-            "query_file_path": "opt/pcar/A1_setup.hql",
+            "query_file_path": "opt/pcar/hive/A1_setup.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
         hive_config_consolidacio_A1_setup["query_name"] = hive_config_consolidacio_A1_setup['query_file_path'].split('/')[-1].split('.hql')[0].lower()
@@ -49,7 +50,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
         
         # consolidacio_A2_setting
         hive_config_consolidacio_A2_setting_base = {
-            "query_file_path": "opt/pcar/A2_setting_base.hql",
+            "query_file_path": "opt/pcar/hive/A2_setting_base.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
         hive_config_consolidacio_A2_setting_base["query_name"] = hive_config_consolidacio_A2_setting_base['query_file_path'].split('/')[-1].split('.hql')[0].lower()
@@ -70,7 +71,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
 
         # consolidacio_A3_setting_dades
         hive_config_consolidacio_A3_setting_dades = {
-            "query_file_path": "opt/pcar/A3_setting_dades.hql",
+            "query_file_path": "opt/pcar/hive/A3_setting_dades.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
         hive_config_consolidacio_A3_setting_dades["query_name"] = hive_config_consolidacio_A3_setting_dades['query_file_path'].split('/')[-1].split('.hql')[0].lower()
