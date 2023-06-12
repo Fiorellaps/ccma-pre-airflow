@@ -10,8 +10,8 @@ import sys
 sys.path.insert(0, '/opt/bitnami/airflow/dags/git_dags/')
 sys.path.insert(0,'/opt/bitnami/airflow/dags/git_dags/functions')
 
-from functions.task_group_execute_spark_application import execute_spark_application
-from functions.task_group_execute_trino_file import execute_trino_file
+from functions.utiles.s3_utiles import read_data_from_s3
+
 from datetime import datetime, timedelta
 
 global_dag_config = {
@@ -45,15 +45,13 @@ def execute_hive_query():
 
     hive_hook = HiveServer2Hook(hive_cli_conn_id="hive_cli_default")
     results = hive_hook.get_records(hive_query)[0]
-    #hive_hook.run_cli(hql=hive_query)
-    #results = hive_hook.get_results()
+    
+    in_any_inici_bloc = results[0]
+    in_any_fi_bloc_ss = results[1]
+    st_dia_inici_bloc = results[2]
+    st_dia_fi_bloc_ss = results[3]
 
-    print("resultado de la query", type(results))
-    print("resultado 1", results[0])
-    query = """SELECT *
-    FROM ccma_pcar.hbbtv_ip_aud_cons_bloc
-    where bi_id_setting=${bi_id_setting}
-    ; """
+    query = "SELECT * FROM ccma_pcar.hbbtv_ip_aud_cons_bloc where bi_id_setting=%(bi_id_setting)s"
     hive_hook = HiveCliHook()
     hive_hook.run_cli(hql=query, hive_conf={"bi_id_setting": 2})
     return results
