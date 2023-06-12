@@ -3,7 +3,7 @@ from airflow.operators.email_operator import EmailOperator
 from airflow.models import Variable
 from airflow.providers.apache.hive.hooks.hive import HiveCliHook
 from airflow.operators.python_operator import PythonOperator
-from airflow.providers.apache.hive.hooks.hive_server2 import HiveServer2Hook
+from airflow.providers.apache.hive.hooks.hive import HiveServer2Hook
 
 
 import sys
