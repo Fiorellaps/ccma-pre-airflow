@@ -63,7 +63,7 @@ with DAG(
     task_id='hive_query_task',
     python_callable=process_hive_query,
     op_kwargs={
-                  "file_path": "tmp/query.hql",
+                  "file_path": "opt/pcar/hive/A1_setup.hql",
                   "bucket_name": "ccma-pre"
               },
     dag=dag,
