@@ -44,7 +44,7 @@ def execute_hive_query():
     FROM ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux; """
 
     result = hive_hook.run_cli(hql=hive_query)
-    print("result", result)
+    print("resultado de la query", result)
     return result
 
 
