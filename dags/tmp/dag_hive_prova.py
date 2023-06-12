@@ -43,7 +43,7 @@ def execute_hive_query():
     hive_query = """SELECT in_any_inici_bloc, in_any_fi_bloc_ss, st_dia_inici_bloc, st_dia_fi_bloc_ss
     FROM ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux; """
 
-    result = hive_hook.run_cli(hql=hive_query)
+    result = hive_hook.get_results(hql=hive_query)
     print("resultado de la query", result)
     return result
 
