@@ -50,7 +50,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
         
         # consolidacio_A2_setting
         hive_config_consolidacio_A2_setting_base = {
-            "query_file_path": "opt/pcar/hive/A2_setting_base.hql",
+            "query_file_path": "opt/pcar/hive/A2_settings_base.hql",
             "query_bucket_name": ENTORNO # ccma-pre | ccma-pro
         }
         hive_config_consolidacio_A2_setting_base["query_name"] = hive_config_consolidacio_A2_setting_base['query_file_path'].split('/')[-1].split('.hql')[0].lower()
