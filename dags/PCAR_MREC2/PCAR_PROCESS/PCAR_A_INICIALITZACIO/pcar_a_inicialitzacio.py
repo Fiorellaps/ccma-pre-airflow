@@ -74,7 +74,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
         }
         
         hive_execute_consolidacio_A3_setting_dades = PythonOperator(
-                            task_id='hive_query_with_parameters_task',
+                            task_id='hive_execute_consolidacio_A3_setting_dades',
                             python_callable=execute_hive_query_with_parameters,
                             op_kwargs={
                                         "fields_selected": hive_config_consolidacio_A3_setting_dades["fields_selected"],
@@ -96,7 +96,7 @@ def pcar_a_inicialitzacio(dag: DAG, config, current_path="") -> TaskGroup:
         }
         
         hive_execute_consolidacio_A4_raw_bloc_aux = PythonOperator(
-                            task_id='hive_query_with_parameters_task',
+                            task_id='hive_execute_consolidacio_A4_raw_bloc_aux',
                             python_callable=execute_hive_query_with_parameters,
                             op_kwargs={
                                         "fields_selected": hive_config_consolidacio_A4_raw_bloc_aux["fields_selected"],
