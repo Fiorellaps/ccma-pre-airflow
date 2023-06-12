@@ -22,7 +22,9 @@ global_dag_config = {
     "job_name": "PCAR_PROCESS",
     "description":"Ingesta consolidació",
     "owner":"ccma",
-    "email_dest":["fpa@nextret.net", "jmarco.q@ccma.cat", "fbigorra.s@ccma.cat"],
+    "email_dest":["fpa@nextret.net"],
+    #"email_dest":["fpa@nextret.net", "jmarco.q@ccma.cat", "fbigorra.s@ccma.cat"],
+
     "application_s3_location": "s3a://" + ENTORNO + "/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
     "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }

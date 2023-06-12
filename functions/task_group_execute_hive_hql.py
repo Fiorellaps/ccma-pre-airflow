@@ -23,7 +23,10 @@ def process_hive_query(bucket_name, file_path):
                             file_path=file_path
         )
 
-        hive_hook.run_cli(hql=query)
+        hive_hook.run_cli(
+              hql=query, 
+              #hive_cli_conn_id="your_hive_connection_id"
+              )
                  
             
 

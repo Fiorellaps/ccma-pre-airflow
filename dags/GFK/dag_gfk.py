@@ -21,7 +21,7 @@ global_dag_config = {
     "application_s3_location": "s3a://"+Variable.get("ccma_entorn")+"/enterprise/zapping/etl/ccma-etl-0.2314.4-jar-with-dependencies.jar",
     "application_main_class": "com.pragsis.ccma.etl.control.ControlProcess"
 }
-current_path = "dags"
+current_path = "dags/GFK"
 
 dag_arguments =  {
     #"end_date": datetime(),
