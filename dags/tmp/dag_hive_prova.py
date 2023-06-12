@@ -48,7 +48,8 @@ def execute_hive_query():
     #hive_hook.run_cli(hql=hive_query)
     #results = hive_hook.get_results()
 
-    print("resultado de la query", results)
+    print("resultado de la query", type(results))
+    print("resultado 1", results[1])
     return results
 
 
