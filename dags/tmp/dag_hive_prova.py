@@ -49,7 +49,7 @@ def execute_hive_query():
     #results = hive_hook.get_results()
 
     print("resultado de la query", type(results))
-    print("resultado 1", results[1])
+    print("resultado 1", type(results[0]))
     return results
 
 
