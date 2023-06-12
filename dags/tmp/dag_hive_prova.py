@@ -55,7 +55,7 @@ def execute_hive_query():
     st_dia_fi_bloc_ss = results[3]
 
     parameters = ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"]
-    file_path = "opt/pcar/hive/A1_setup.hql"
+    file_path = "opt/pcar/hive/A3_settings_dades.hql"
     bucket_name =  "ccma-pre"
     query = read_data_from_s3(
                             bucket_name=bucket_name, 
