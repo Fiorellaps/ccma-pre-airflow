@@ -39,34 +39,28 @@ dag_arguments =  {
 }
 
 
-def execute_hive_query():
+def execute_hive_query_with_parameters(fields_selected, table_name_select, query_parameters, query_file_path, query_bucket_name):
     #hive_hook = HiveCliHook(hive_cli_conn_id='hive_cli_default')  # Connection ID for Hive
-    fields = ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"]
-    fields_joined = ', '.join(fields)
-    table_name = "ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux"
-    hive_query = [f'SELECT {fields_joined} FROM {table_name}']
+    #fields = ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"]
+    fields_joined = ', '.join(fields_selected)
+    #table_name_select = "ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux"
+    hive_query = [f'SELECT {fields_joined} FROM {table_name_select}']
 
     hive_hook = HiveServer2Hook(hive_cli_conn_id="hive_cli_default")
     results = hive_hook.get_records(hive_query)[0]
     
-    in_any_inici_bloc = results[0]
-    in_any_fi_bloc_ss = results[1]
-    st_dia_inici_bloc = results[2]
-    st_dia_fi_bloc_ss = results[3]
-
-    parameters = ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"]
-    file_path = "opt/pcar/hive/A3_settings_dades.hql"
-    bucket_name =  "ccma-pre"
+    #parameters = ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"]
+    #query_file_path = "opt/pcar/hive/A3_settings_dades.hql"
+    #query_bucket_name =  "ccma-pre"
     query = read_data_from_s3(
-                            bucket_name=bucket_name, 
-                            file_path=file_path
+                            bucket_name=query_bucket_name, 
+                            file_path=query_file_path
           )
-    for i in range(0, len(parameters)):
+    for i in range(0, len(query_parameters)):
         value = str(results[i])
-        field_variable = "${" + parameters[i] + "}"
+        field_variable = "${" + query_parameters[i] + "}"
         query = query.replace(field_variable, value)
 
-    print("query", query)
     hive_hook = HiveCliHook(hive_cli_conn_id="hive_cli_default")
     hive_hook.run_cli(hql=query)
 
@@ -83,9 +77,23 @@ with DAG(
    tags=[global_dag_config["job_name"], global_dag_config["owner"], "s3", "jar"]
 ) as dag:
 
-
+    config_carrega_setting_dades = {
+        "fields_selected": ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"],
+        "table_name_select": "ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux",
+        "query_parameters": ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"],
+        "query_file_path": "opt/pcar/hive/A3_settings_dades.hql",
+        "query_bucket_name": Variable.get("ccma_entorn")
+    }
+    
     hive_task = PythonOperator(
-    task_id='hive_query_task',
-    python_callable=execute_hive_query,
+    task_id='hive_query_with_parameters_task',
+    python_callable=execute_hive_query_with_parameters,
+    op_kwargs={
+                  "fields_selected": config_carrega_setting_dades["fields_selected"],
+                  "table_name_select": config_carrega_setting_dades["table_name_select"],
+                  "query_parameters": config_carrega_setting_dades["query_parameters"],
+                  "query_file_path": config_carrega_setting_dades["query_file_path"],
+                  "query_bucket_name":config_carrega_setting_dades["query_bucket_name"]
+              },
     dag=dag,
     )
