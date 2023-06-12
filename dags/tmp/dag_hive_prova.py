@@ -40,9 +40,10 @@ dag_arguments =  {
 
 def execute_hive_query():
     hive_hook = HiveCliHook(hive_cli_conn_id='hive_cli_default')  # Connection ID for Hive
-    hive_query = """SELECT *
-  FROM ccma_analytics.dictionary_config
-  LIMIT 100"""
+    hive_query = """SELECT in_any_inici_bloc, in_any_fi_bloc_ss, st_dia_inici_bloc, st_dia_fi_bloc_ss
+FROM ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux
+LIMIT 100
+; """
 
     hive_hook.run_cli(hql=hive_query)
 
@@ -61,10 +62,6 @@ with DAG(
 
     hive_task = PythonOperator(
     task_id='hive_query_task',
-    python_callable=process_hive_query,
-    op_kwargs={
-                  "file_path": "opt/pcar/hive/A1_setup.hql",
-                  "bucket_name": "ccma-pre"
-              },
+    python_callable=execute_hive_query,
     dag=dag,
     )
