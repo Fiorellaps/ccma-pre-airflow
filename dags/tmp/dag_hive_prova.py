@@ -50,6 +50,12 @@ def execute_hive_query():
 
     print("resultado de la query", type(results))
     print("resultado 1", results[0])
+    query = """SELECT *
+    FROM ccma_pcar.hbbtv_ip_aud_cons_bloc
+    where bi_id_setting=${bi_id_setting}
+    ; """
+    hive_hook = HiveCliHook()
+    hive_hook.run_cli(hql=query, hive_conf={"bi_id_setting": 2})
     return results
 
 
