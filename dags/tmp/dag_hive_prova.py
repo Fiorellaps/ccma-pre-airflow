@@ -67,9 +67,8 @@ def execute_hive_query():
         query = query.replace(field_variable, value)
 
     print("query", query)
-    #hive_hook = HiveCliHook(hive_cli_conn_id="hive_cli_default")
-    #hive_hook.run_cli(hql=query, hive_conf={"bi_id_setting": 2})
-    return results
+    hive_hook = HiveCliHook(hive_cli_conn_id="hive_cli_default")
+    hive_hook.run_cli(hql=query)
 
 
 
