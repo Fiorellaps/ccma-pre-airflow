@@ -43,7 +43,9 @@ def execute_hive_query():
     hive_query = """SELECT in_any_inici_bloc, in_any_fi_bloc_ss, st_dia_inici_bloc, st_dia_fi_bloc_ss
     FROM ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux; """
 
-    hive_hook.run_cli(hql=hive_query)
+    result = hive_hook.run_cli(hql=hive_query)
+    print(result)
+
 
 
 from functions.task_group_execute_hive_hql import process_hive_query
