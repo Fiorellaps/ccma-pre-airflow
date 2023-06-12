@@ -3,6 +3,7 @@ from airflow.operators.email_operator import EmailOperator
 from airflow.models import Variable
 from airflow.providers.apache.hive.hooks.hive import HiveCliHook
 from airflow.operators.python_operator import PythonOperator
+from airflow.providers.apache.hive.hooks.hive_server2 import HiveServer2Hook
 
 
 import sys
@@ -39,12 +40,14 @@ dag_arguments =  {
 
 
 def execute_hive_query():
-    hive_hook = HiveCliHook(hive_cli_conn_id='hive_cli_default')  # Connection ID for Hive
+    #hive_hook = HiveCliHook(hive_cli_conn_id='hive_cli_default')  # Connection ID for Hive
     hive_query = """SELECT in_any_inici_bloc, in_any_fi_bloc_ss, st_dia_inici_bloc, st_dia_fi_bloc_ss
     FROM ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux; """
 
-    hive_hook.run_cli(hql=hive_query)
-    results = hive_hook.get_results()
+    hive_hook = HiveServer2Hook(hive_cli_conn_id="your_hive_connection_id")
+    results = hive_hook.get_results(hql=hive_query)
+    #hive_hook.run_cli(hql=hive_query)
+    #results = hive_hook.get_results()
 
     print("resultado de la query", results)
     return results
