@@ -45,7 +45,7 @@ def execute_hive_query():
     FROM ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux; """
 
     hive_hook = HiveServer2Hook(hive_cli_conn_id="hive_cli_default")
-    hive_hook.run_cli(hql=hive_query)
+    hive_hook.run_hql(hql=hive_query)
     results = hive_hook.get_results()
     #hive_hook.run_cli(hql=hive_query)
     #results = hive_hook.get_results()
