@@ -63,6 +63,65 @@ with DAG(
                                         current_path=current_path
                                     )
     
+    # pcar_b_validacio
+    config_pcar_b_validacio = {
+        "parameter": "",
+    }
+    task_pcar_b_validacio = pcar_b_validacio(
+                                        dag=dag, 
+                                        config=config_pcar_b_validacio, 
+                                        current_path=current_path
+                                    )
+    
+    # pcar_c_reproduccions
+    config_pcar_c_reproduccions = {
+        "parameter": "",
+    }
+    task_pcar_c_reproduccions = pcar_c_reproduccions(
+                                        dag=dag, 
+                                        config=config_pcar_c_reproduccions, 
+                                        current_path=current_path
+                                    )
+    
+    # pcar_d_warnings
+    config_pcar_d_warnings = {
+        "parameter": "",
+    }
+    task_pcar_d_warnings = pcar_d_warnings(
+                                        dag=dag, 
+                                        config=config_pcar_d_warnings, 
+                                        current_path=current_path
+                                    )
+    
+    # pcar_e_consolidacio
+    config_pcar_e_consolidacio = {
+        "parameter": "",
+    }
+    task_pcar_e_consolidacio = pcar_e_consolidacio(
+                                        dag=dag, 
+                                        config=config_pcar_e_consolidacio, 
+                                        current_path=current_path
+                                    )
+    
+    # pcar_ea_vistos
+    config_pcar_ea_vistos = {
+        "parameter": "",
+    }
+    task_pcar_ea_vistos = pcar_ea_vistos(
+                                        dag=dag, 
+                                        config=config_pcar_ea_vistos, 
+                                        current_path=current_path
+                                    )
+    
+    # pcar_f_finalitzacio
+    config_pcar_f_finalitzacio = {
+        "parameter": "",
+    }
+    task_pcar_f_finalitzacio = pcar_f_finalitzacio(
+                                        dag=dag, 
+                                        config=config_pcar_f_finalitzacio, 
+                                        current_path=current_path
+                                    )
 
     # Send success email 
     success_email = EmailOperator(
@@ -75,5 +134,11 @@ with DAG(
     
     
     (task_pcar_a_inicialitzacio >>
+    task_pcar_b_validacio >>
+    task_pcar_c_reproduccions >>
+    task_pcar_d_warnings >>
+    task_pcar_e_consolidacio >>
+    task_pcar_ea_vistos >>
+    task_pcar_f_finalitzacio >>
     success_email
     )
