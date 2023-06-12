@@ -41,7 +41,10 @@ dag_arguments =  {
 
 def execute_hive_query():
     #hive_hook = HiveCliHook(hive_cli_conn_id='hive_cli_default')  # Connection ID for Hive
-    hive_query = ["SELECT in_any_inici_bloc, in_any_fi_bloc_ss, st_dia_inici_bloc, st_dia_fi_bloc_ss FROM ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux"]
+    fields = ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"]
+    fields_joined = ', '.join(fields)
+    table_name = "ccma_pcar.hbbtv_ip_aud_cons_settings_bloc_base_aux"
+    hive_query = [f'SELECT {fields_joined} FROM {table_name}']
 
     hive_hook = HiveServer2Hook(hive_cli_conn_id="hive_cli_default")
     results = hive_hook.get_records(hive_query)[0]
@@ -51,9 +54,21 @@ def execute_hive_query():
     st_dia_inici_bloc = results[2]
     st_dia_fi_bloc_ss = results[3]
 
-    query = "SELECT * FROM ccma_pcar.hbbtv_ip_aud_cons_bloc where bi_id_setting=%(bi_id_setting)s"
-    hive_hook = HiveCliHook()
-    hive_hook.run_cli(hql=query, hive_conf={"bi_id_setting": 2})
+    parameters = ["in_any_inici_bloc", "in_any_fi_bloc_ss", "st_dia_inici_bloc", "st_dia_fi_bloc_ss"]
+    file_path = "opt/pcar/hive/A1_setup.hql"
+    bucket_name =  "ccma-pre"
+    query = read_data_from_s3(
+                            bucket_name=bucket_name, 
+                            file_path=file_path
+          )
+    for i in range(0, len(parameters)):
+        value = str(results[i])
+        field_variable = "${" + parameters[i] + "}"
+        query = query.replace(field_variable, value)
+
+    print("query", query)
+    #hive_hook = HiveCliHook(hive_cli_conn_id="hive_cli_default")
+    #hive_hook.run_cli(hql=query, hive_conf={"bi_id_setting": 2})
     return results
 
 
